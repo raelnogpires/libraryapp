@@ -6,4 +6,5 @@ type Book struct {
 	Description string
 	CategoryId  int64
 	AuthorId    int64
+	ImgUrl      string
 }
