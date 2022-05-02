@@ -1,6 +1,6 @@
 package author
 
 type Author struct {
-	Id   int64
-	Name string
+	Id   int64  `json:"id"`
+	Name string `json:"name"`
 }
