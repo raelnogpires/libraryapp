@@ -2,6 +2,7 @@ package author
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/raelnogpires/libraryapp/back-end/database"
 )
@@ -49,18 +50,106 @@ func (s *Service) GetAll() ([]*Author, error) {
 	return result, nil
 }
 
-func (s *Service) GetById() (*Author, error) {
-	return nil, nil
+func (s *Service) GetById(Id int64) (*Author, error) {
+	var a Author
+
+	// O método Prepare verifica se a consulta é válida
+	stmt, err := s.DB.Prepare("SELECT id, name FROM librarydb.authors WHERE id = ?")
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer stmt.Close()
+
+	err = stmt.QueryRow(Id).Scan(&a.Id, &a.Name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	// Retorna a posição de memória de a
+	return &a, nil
 }
 
-func (s *Service) Create() error {
+func (s *Service) Create(name string) error {
+	// Iniciamos uma transação
+	tx, err := s.DB.Begin()
+
+	if err != nil {
+		return err
+	}
+
+	stmt, err := tx.Prepare("INSERT INTO librarydb.authors VALUES (DEFAULT, ?)")
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	// O método Exec retorna um result, porém não há interesse nele
+	// sendo assim é possível ignorá-lo com _
+	_, err = stmt.Exec(name)
+
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	tx.Commit()
 	return nil
 }
 
-func (s *Service) Update() error {
+func (s *Service) Update(a *Author) error {
+	if a.Id == 0 {
+		// Caso o id seja 0 (não presente no db), o sistema gera um erro
+		// para prevenir um update/delete sem WHERE
+		return fmt.Errorf("invalid id")
+	}
+
+	tx, err := s.DB.Begin()
+
+	if err != nil {
+		return err
+	}
+
+	stmt, err := tx.Prepare("UPDATE librarydp.authors SET name = ? WHERE id = ?")
+
+	if err != nil {
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(a.Name, a.Id)
+
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
 	return nil
 }
 
-func (s *Service) Delete() error {
+func (s *Service) Delete(Id int64) error {
+	if Id == 0 {
+		return fmt.Errorf("invalid id")
+	}
+
+	tx, err := s.DB.Begin()
+
+	if err != nil {
+		return err
+	}
+
+	_, err = tx.Exec("DELETE FROM librarydb.authors WHERE id = ?", Id)
+
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
+	tx.Commit()
 	return nil
 }
