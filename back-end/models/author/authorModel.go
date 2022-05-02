@@ -1,5 +1,11 @@
 package author
 
+import (
+	"database/sql"
+
+	"github.com/raelnogpires/libraryapp/back-end/database"
+)
+
 type UseCase interface {
 	GetAll() ([]*Author, error)
 	GetById(Id int64) (*Author, error)
@@ -9,15 +15,38 @@ type UseCase interface {
 }
 
 // Estrutura que recebe a conexão com o DB
-type Service struct{}
+type Service struct {
+	DB *sql.DB
+}
 
 // Retorna um ponteiro em memória para determinada estrutura
-func NewService() *Service {
-	return &Service{}
+func NewService(db *sql.DB) *Service {
+	return &Service{
+		DB: database.GetDB(),
+	}
 }
 
 func (s *Service) GetAll() ([]*Author, error) {
-	return nil, nil
+	var result []*Author
+
+	rows, err := s.DB.Query("SELECT id, name FROM librarydb.authors")
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var a Author
+		err = rows.Scan(&a.Id, &a.Name)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, &a)
+	}
+
+	return result, nil
 }
 
 func (s *Service) GetById() (*Author, error) {
