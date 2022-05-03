@@ -30,7 +30,7 @@ func NewService(db *sql.DB) *Service {
 func (s *Service) GetAll() ([]*Author, error) {
 	var result []*Author
 
-	rows, err := s.DB.Query("SELECT id, name FROM librarydb.authors")
+	rows, err := s.DB.Query("SELECT * FROM LibraryDB.authors")
 
 	if err != nil {
 		return nil, err
@@ -54,7 +54,7 @@ func (s *Service) GetById(Id int64) (*Author, error) {
 	var a Author
 
 	// O método Prepare verifica se a consulta é válida
-	stmt, err := s.DB.Prepare("SELECT id, name FROM librarydb.authors WHERE id = ?")
+	stmt, err := s.DB.Prepare("SELECT * FROM LibraryDB.authors WHERE id = ?")
 
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func (s *Service) Create(name string) error {
 		return err
 	}
 
-	stmt, err := tx.Prepare("INSERT INTO librarydb.authors VALUES (DEFAULT, ?)")
+	stmt, err := tx.Prepare("INSERT INTO LibraryDB.authors VALUES (DEFAULT, ?)")
 
 	if err != nil {
 		return err
@@ -114,7 +114,7 @@ func (s *Service) Update(a *Author) error {
 		return err
 	}
 
-	stmt, err := tx.Prepare("UPDATE librarydp.authors SET name = ? WHERE id = ?")
+	stmt, err := tx.Prepare("UPDATE LibraryDB.authors SET name = ? WHERE id = ?")
 
 	if err != nil {
 		return err
@@ -129,6 +129,7 @@ func (s *Service) Update(a *Author) error {
 		return err
 	}
 
+	tx.Commit()
 	return nil
 }
 
@@ -143,7 +144,7 @@ func (s *Service) Delete(Id int64) error {
 		return err
 	}
 
-	_, err = tx.Exec("DELETE FROM librarydb.authors WHERE id = ?", Id)
+	_, err = tx.Exec("DELETE FROM LibraryDB.authors WHERE id = ?", Id)
 
 	if err != nil {
 		tx.Rollback()
