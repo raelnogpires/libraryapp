@@ -57,6 +57,8 @@ func (s *Service) GetById(Id int64) (*Category, error) {
 		return nil, err
 	}
 
+	defer stmt.Close()
+
 	err = stmt.QueryRow(Id).Scan(&c.Id, &c.Name)
 
 	if err != nil {
