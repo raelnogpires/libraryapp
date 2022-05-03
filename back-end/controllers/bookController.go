@@ -8,11 +8,11 @@ import (
 	"github.com/raelnogpires/libraryapp/back-end/models"
 )
 
-func GetAllAuthors(c *gin.Context) {
+func GetAllBooks(c *gin.Context) {
 	db := database.GetDB()
-	var a []models.Author
+	var b []models.Book
 
-	err := db.Find(&a).Error
+	err := db.Find(&b).Error
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error": "internal server error - " + err.Error(),
@@ -20,10 +20,10 @@ func GetAllAuthors(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, a)
+	c.JSON(200, b)
 }
 
-func GetAuthorById(c *gin.Context) {
+func GetBookById(c *gin.Context) {
 	id := c.Param("id")
 	intid, err := strconv.Atoi(id)
 	if err != nil {
@@ -33,43 +33,41 @@ func GetAuthorById(c *gin.Context) {
 	}
 
 	db := database.GetDB()
-	var a models.Author
-	err = db.First(&a, intid).Error
+	var b models.Book
+	err = db.First(&b, intid).Error
 
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "no author found - " + err.Error(),
+			"error": "no book found - " + err.Error(),
 		})
 	}
 
-	c.JSON(200, a)
+	c.JSON(200, b)
 }
 
-func CreateAuthor(c *gin.Context) {
+func CreateBook(c *gin.Context) {
 	db := database.GetDB()
-	var a models.Author
+	var b models.Book
 
-	err := c.ShouldBindJSON(&a)
+	err := c.ShouldBindJSON(&b)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "couldn't bind json - " + err.Error(),
 		})
 	}
 
-	err = db.Create(&a).Error
+	err = db.Create(&b).Error
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't register author - " + err.Error(),
+			"error": "couldn't register book - " + err.Error(),
 		})
 	}
 
-	c.JSON(201, a)
+	c.JSON(201, b)
 }
 
-func EditAuthor(c *gin.Context) {
+func EditBook(c *gin.Context) {
 	id := c.Param("id")
-	// converte para int64
-	// https://stackoverflow.com/questions/21532113/golang-converting-string-to-int64
 	intid, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -78,27 +76,27 @@ func EditAuthor(c *gin.Context) {
 	}
 
 	db := database.GetDB()
-	var a models.Author
-	a.Id = intid
+	var b models.Book
+	b.Id = intid
 
-	err = c.ShouldBindJSON(&a)
+	err = c.ShouldBindJSON(&b)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "couldn't bind json - " + err.Error(),
 		})
 	}
 
-	err = db.Save(&a).Error
+	err = db.Save(&b).Error
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't edit author - " + err.Error(),
+			"error": "couldn't edit book - " + err.Error(),
 		})
 	}
 
-	c.JSON(200, a)
+	c.JSON(200, b)
 }
 
-func DeleteAuthor(c *gin.Context) {
+func DeleteBook(c *gin.Context) {
 	id := c.Param("id")
 	intid, err := strconv.Atoi(id)
 	if err != nil {
@@ -108,10 +106,10 @@ func DeleteAuthor(c *gin.Context) {
 	}
 
 	db := database.GetDB()
-	err = db.Delete(&models.Author{}, intid).Error
+	err = db.Delete(&models.Book{}, intid).Error
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't delete author - " + err.Error(),
+			"error": "couldn't delete book - " + err.Error(),
 		})
 	}
 
