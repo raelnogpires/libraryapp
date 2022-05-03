@@ -14,17 +14,22 @@ import (
 var db *gorm.DB
 
 func InitDB() {
+	var db_user string = os.Getenv("DB_USER")
+	var db_password string = os.Getenv("DB_PASSWORD")
+	var db_host string = os.Getenv("DB_HOST")
+	var db_name string = os.Getenv("DB_NAME")
+
 	// Criamos a string de conexão usando os métodos fmt.Sprintf + os.Getenv
 	// para sigilo de informações delicadas.
-	var connectionString string = fmt.Sprintf(
+	var dsn string = fmt.Sprintf(
 		"%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_NAME"),
+		db_user,
+		db_password,
+		db_host,
+		db_name,
 	)
 
-	database, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
+	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	// Caso o erro não seja nulo, tratamos ele
 	if err != nil {
