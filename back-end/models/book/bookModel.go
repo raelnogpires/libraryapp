@@ -28,7 +28,7 @@ func NewService(db *sql.DB) *Service {
 func (s *Service) GetAll() ([]*Book, error) {
 	var result []*Book
 
-	rows, err := s.DB.Query("SELECT * FROM LibraryDB.books")
+	rows, err := s.DB.Query("SELECT * FROM LibraryDB.books;")
 
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func (s *Service) GetAll() ([]*Book, error) {
 func (s *Service) GetById(Id int64) (*Book, error) {
 	var b Book
 
-	stmt, err := s.DB.Prepare("SELECT * FROM LibraryDB.books WHERE id = ?")
+	stmt, err := s.DB.Prepare("SELECT * FROM LibraryDB.books WHERE id = ?;")
 
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func (s *Service) Create(name string, description string, categoryId int64, auth
 		return err
 	}
 
-	stmt, err := tx.Prepare("INSERT INTO LibraryDB.books VALUES (DEFAULT, ?, ?, ?, ?, ?)")
+	stmt, err := tx.Prepare("INSERT INTO LibraryDB.books VALUES (DEFAULT, ?, ?, ?, ?, ?);")
 
 	if err != nil {
 		return err
@@ -110,7 +110,7 @@ func (s *Service) Update(Id int64, Name string, Description string, ImgUrl strin
 		SET name = ?,
 		description = ?,
 		img_url = ?
-		WHERE id = ?`,
+		WHERE id = ?;`,
 	)
 
 	if err != nil {
@@ -141,7 +141,7 @@ func (s *Service) Delete(Id int64) error {
 		return err
 	}
 
-	_, err = tx.Exec("DELETE FROM LibraryDB.books WHERE id = ?", Id)
+	_, err = tx.Exec("DELETE FROM LibraryDB.books WHERE id = ?;", Id)
 
 	if err != nil {
 		tx.Rollback()

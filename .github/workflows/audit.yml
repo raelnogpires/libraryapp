@@ -45,3 +45,6 @@ jobs:
     - name: Run golint
       run: golint ./...
       working-directory: back-end
+
+# https://www.alexedwards.net/blog/ci-with-go-and-github-actions
+# https://stackoverflow.com/questions/57806624/github-actions-how-to-build-project-in-sub-directory
