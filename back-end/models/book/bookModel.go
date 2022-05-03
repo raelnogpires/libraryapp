@@ -29,7 +29,6 @@ func (s *Service) GetAll() ([]*Book, error) {
 	var result []*Book
 
 	rows, err := s.DB.Query("SELECT * FROM LibraryDB.books;")
-
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +51,6 @@ func (s *Service) GetById(Id int64) (*Book, error) {
 	var b Book
 
 	stmt, err := s.DB.Prepare("SELECT * FROM LibraryDB.books WHERE id = ?;")
-
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +58,6 @@ func (s *Service) GetById(Id int64) (*Book, error) {
 	defer stmt.Close()
 
 	err = stmt.QueryRow(Id).Scan(&b.Id, &b.Name, &b.Description, &b.CategoryId, &b.AuthorId, &b.ImgUrl)
-
 	if err != nil {
 		return nil, err
 	}
@@ -70,13 +67,11 @@ func (s *Service) GetById(Id int64) (*Book, error) {
 
 func (s *Service) Create(name string, description string, categoryId int64, authorId int64, imgUrl string) error {
 	tx, err := s.DB.Begin()
-
 	if err != nil {
 		return err
 	}
 
 	stmt, err := tx.Prepare("INSERT INTO LibraryDB.books VALUES (DEFAULT, ?, ?, ?, ?, ?);")
-
 	if err != nil {
 		return err
 	}
@@ -84,7 +79,6 @@ func (s *Service) Create(name string, description string, categoryId int64, auth
 	defer stmt.Close()
 
 	_, err = stmt.Exec(name, description, categoryId, authorId, imgUrl)
-
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -100,7 +94,6 @@ func (s *Service) Update(Id int64, Name string, Description string, ImgUrl strin
 	}
 
 	tx, err := s.DB.Begin()
-
 	if err != nil {
 		return err
 	}
@@ -112,7 +105,6 @@ func (s *Service) Update(Id int64, Name string, Description string, ImgUrl strin
 		img_url = ?
 		WHERE id = ?;`,
 	)
-
 	if err != nil {
 		return err
 	}
@@ -120,7 +112,6 @@ func (s *Service) Update(Id int64, Name string, Description string, ImgUrl strin
 	defer stmt.Close()
 
 	_, err = stmt.Exec(Name, Description, ImgUrl, Id)
-
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -136,13 +127,11 @@ func (s *Service) Delete(Id int64) error {
 	}
 
 	tx, err := s.DB.Begin()
-
 	if err != nil {
 		return err
 	}
 
 	_, err = tx.Exec("DELETE FROM LibraryDB.books WHERE id = ?;", Id)
-
 	if err != nil {
 		tx.Rollback()
 		return err

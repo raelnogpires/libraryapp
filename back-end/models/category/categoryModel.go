@@ -29,7 +29,6 @@ func (s *Service) GetAll() ([]*Category, error) {
 	var result []*Category
 
 	rows, err := s.DB.Query("SELECT * FROM LibraryDB.categories;")
-
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +51,6 @@ func (s *Service) GetById(Id int64) (*Category, error) {
 	var c Category
 
 	stmt, err := s.DB.Prepare("SELECT * FROM LibraryDB.categories WHERE id = ?;")
-
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +58,6 @@ func (s *Service) GetById(Id int64) (*Category, error) {
 	defer stmt.Close()
 
 	err = stmt.QueryRow(Id).Scan(&c.Id, &c.Name)
-
 	if err != nil {
 		return nil, err
 	}
@@ -70,13 +67,11 @@ func (s *Service) GetById(Id int64) (*Category, error) {
 
 func (s *Service) Create(name string) error {
 	tx, err := s.DB.Begin()
-
 	if err != nil {
 		return err
 	}
 
 	stmt, err := tx.Prepare("INSERT INTO LibraryDB.categories VALUES (DEFAULT, ?);")
-
 	if err != nil {
 		return err
 	}
@@ -84,7 +79,6 @@ func (s *Service) Create(name string) error {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(name)
-
 	if err != nil {
 		tx.Rollback()
 		return err

@@ -55,7 +55,6 @@ func (s *Service) GetById(Id int64) (*Author, error) {
 
 	// O método Prepare verifica se a consulta é válida
 	stmt, err := s.DB.Prepare("SELECT * FROM LibraryDB.authors WHERE id = ?;")
-
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +62,6 @@ func (s *Service) GetById(Id int64) (*Author, error) {
 	defer stmt.Close()
 
 	err = stmt.QueryRow(Id).Scan(&a.Id, &a.Name)
-
 	if err != nil {
 		return nil, err
 	}
@@ -75,13 +73,11 @@ func (s *Service) GetById(Id int64) (*Author, error) {
 func (s *Service) Create(name string) error {
 	// Iniciamos uma transação
 	tx, err := s.DB.Begin()
-
 	if err != nil {
 		return err
 	}
 
 	stmt, err := tx.Prepare("INSERT INTO LibraryDB.authors VALUES (DEFAULT, ?);")
-
 	if err != nil {
 		return err
 	}
@@ -91,7 +87,6 @@ func (s *Service) Create(name string) error {
 	// O método Exec retorna um result, porém não há interesse nele
 	// sendo assim é possível ignorá-lo com _
 	_, err = stmt.Exec(name)
-
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -109,13 +104,11 @@ func (s *Service) Update(a *Author) error {
 	}
 
 	tx, err := s.DB.Begin()
-
 	if err != nil {
 		return err
 	}
 
 	stmt, err := tx.Prepare("UPDATE LibraryDB.authors SET name = ? WHERE id = ?;")
-
 	if err != nil {
 		return err
 	}
@@ -123,7 +116,6 @@ func (s *Service) Update(a *Author) error {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(a.Name, a.Id)
-
 	if err != nil {
 		tx.Rollback()
 		return err
@@ -139,13 +131,11 @@ func (s *Service) Delete(Id int64) error {
 	}
 
 	tx, err := s.DB.Begin()
-
 	if err != nil {
 		return err
 	}
 
 	_, err = tx.Exec("DELETE FROM LibraryDB.authors WHERE id = ?;", Id)
-
 	if err != nil {
 		tx.Rollback()
 		return err
