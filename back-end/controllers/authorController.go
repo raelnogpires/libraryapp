@@ -63,14 +63,24 @@ func CreateAuthor(c *gin.Context) {
 		})
 	}
 
-	c.JSON(200, a)
+	c.JSON(201, a)
 }
 
 func EditAuthor(c *gin.Context) {
+	id := c.Param("id")
+	// converte para int64
+	intid, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "id must be an integer",
+		})
+	}
+
 	db := database.GetDB()
 	var a models.Author
+	a.Id = intid
 
-	err := c.ShouldBindJSON(&a)
+	err = c.ShouldBindJSON(&a)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "couldn't bind json - " + err.Error(),
@@ -83,6 +93,8 @@ func EditAuthor(c *gin.Context) {
 			"error": "couldn't edit author - " + err.Error(),
 		})
 	}
+
+	c.JSON(200, a)
 }
 
 func DeleteAuthor(c *gin.Context) {
