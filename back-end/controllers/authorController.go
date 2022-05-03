@@ -79,7 +79,7 @@ func EditAuthor(c *gin.Context) {
 
 	db := database.GetDB()
 	var a models.Author
-	a.Id = intid
+	a.ID = intid
 
 	err = c.ShouldBindJSON(&a)
 	if err != nil {

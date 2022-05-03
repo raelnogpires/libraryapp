@@ -30,6 +30,7 @@ func GetBookById(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "id must be an integer",
 		})
+		return
 	}
 
 	db := database.GetDB()
@@ -40,6 +41,7 @@ func GetBookById(c *gin.Context) {
 		c.JSON(404, gin.H{
 			"error": "no book found - " + err.Error(),
 		})
+		return
 	}
 
 	c.JSON(200, b)
@@ -54,6 +56,7 @@ func CreateBook(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "couldn't bind json - " + err.Error(),
 		})
+		return
 	}
 
 	err = db.Create(&b).Error
@@ -61,6 +64,7 @@ func CreateBook(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "couldn't register book - " + err.Error(),
 		})
+		return
 	}
 
 	c.JSON(201, b)
@@ -73,17 +77,19 @@ func EditBook(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "id must be an integer",
 		})
+		return
 	}
 
 	db := database.GetDB()
 	var b models.Book
-	b.Id = intid
+	b.ID = intid
 
 	err = c.ShouldBindJSON(&b)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "couldn't bind json - " + err.Error(),
 		})
+		return
 	}
 
 	err = db.Save(&b).Error
@@ -91,6 +97,7 @@ func EditBook(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "couldn't edit book - " + err.Error(),
 		})
+		return
 	}
 
 	c.JSON(200, b)
@@ -103,6 +110,7 @@ func DeleteBook(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "id must be an integer",
 		})
+		return
 	}
 
 	db := database.GetDB()
@@ -111,6 +119,7 @@ func DeleteBook(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "couldn't delete book - " + err.Error(),
 		})
+		return
 	}
 
 	c.Status(204)
