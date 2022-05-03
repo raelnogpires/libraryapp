@@ -8,7 +8,7 @@ import (
 	"github.com/raelnogpires/libraryapp/back-end/models"
 )
 
-func getAllAuthors(c *gin.Context) {
+func GetAllAuthors(c *gin.Context) {
 	db := database.GetDB()
 	var a []models.Author
 
