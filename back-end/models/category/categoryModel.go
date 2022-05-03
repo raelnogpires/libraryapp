@@ -102,7 +102,7 @@ func (s *Service) Update(c *Category) error {
 		return err
 	}
 
-	stmt, err := tx.Prepare("UPDATE LibraryDB.categories SET name = ? WHERE id = ?")
+	stmt, err := tx.Prepare("UPDATE LibraryDB.categories SET name = ? WHERE id = ?;")
 	if err != nil {
 		return err
 	}
@@ -129,7 +129,7 @@ func (s *Service) Delete(Id int64) error {
 		return err
 	}
 
-	_, err = tx.Exec("DELETE FROM LibraryDB.categories WHERE id = ?", Id)
+	_, err = tx.Exec("DELETE FROM LibraryDB.categories WHERE id = ?;", Id)
 	if err != nil {
 		tx.Rollback()
 		return err
