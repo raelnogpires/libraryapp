@@ -15,9 +15,9 @@ jobs:
 
     - name: Set up Go
       uses: actions/setup-go@v2
-      working-directory: back-end
       with:
         go-version: 1.18
+      working-directory: back-end
 
     - name: Verify dependencies
       run: go mod verify
