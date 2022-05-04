@@ -8,8 +8,17 @@ import (
 	"github.com/raelnogpires/libraryapp/back-end/models"
 )
 
-// yeah, i know, this is horrible
-var allQuery string = "SELECT b.id, b.name, b.description, c.id AS category_id, c.name AS category_name, a.id AS author_id, a.name AS author_name, b.img_url FROM books AS b INNER JOIN categories AS c ON b.category_id = c.id INNER JOIN authors AS a ON b.author_id = a.id ORDER BY b.id;"
+// ugly? kinda, but returns everything's necessary
+var allQuery string = `SELECT
+	b.id, b.name, b.description,
+	c.id AS category_id, c.name AS category_name,
+	a.id AS author_id, a.name AS author_name, b.img_url
+	FROM books AS b
+	INNER JOIN categories AS c
+		ON b.category_id = c.id
+	INNER JOIN authors AS a
+		ON b.author_id = a.id
+	ORDER BY b.id;`
 
 func GetAllBooks(c *gin.Context) {
 	db := database.GetDB()
@@ -26,7 +35,18 @@ func GetAllBooks(c *gin.Context) {
 	c.JSON(200, b)
 }
 
-var idQuery string = "SELECT b.id, b.name, b.description, c.id AS category_id, c.name AS category_name, a.id AS author_id, a.name AS author_name, b.img_url FROM books AS b INNER JOIN categories AS c ON b.category_id = c.id INNER JOIN authors AS a ON b.author_id = a.id WHERE b.id = ? ORDER BY b.id;"
+// also ugly
+var idQuery string = `SELECT
+	b.id, b.name, b.description,
+	c.id AS category_id, c.name AS category_name,
+	a.id AS author_id, a.name AS author_name, b.img_url
+	FROM books AS b
+	INNER JOIN categories AS c
+		ON b.category_id = c.id
+	INNER JOIN authors AS a
+		ON b.author_id = a.id
+	WHERE b.id = ?
+	ORDER BY b.id;`
 
 func GetBookById(c *gin.Context) {
 	id := c.Param("id")
