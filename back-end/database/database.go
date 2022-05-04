@@ -11,7 +11,8 @@ import (
 	"gorm.io/gorm"
 )
 
-// Atribuímos o database para a variável db, tornando seu uso mais simples.
+// the var db receives the memory pointer for the db engine
+// making it's use simplier
 var db *gorm.DB
 
 func InitDB() {
@@ -20,8 +21,8 @@ func InitDB() {
 	var db_host string = os.Getenv("DB_HOST")
 	var db_name string = os.Getenv("DB_NAME")
 
-	// Criamos a string de conexão usando os métodos fmt.Sprintf + os.Getenv
-	// para sigilo de informações delicadas.
+	// connection string is created using fmt.Sprintf + os.Getenv methods
+	// for protection of delicate information
 	var dsn string = fmt.Sprintf(
 		"%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		db_user,
@@ -32,7 +33,7 @@ func InitDB() {
 
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
-	// Caso o erro não seja nulo, tratamos ele
+	// if error isn't null, is treated
 	if err != nil {
 		fmt.Println("something went wrong, couldn't connect with mysql database")
 		log.Fatal("error: ", err)
@@ -64,7 +65,7 @@ func CloseConnection() error {
 	return nil
 }
 
-// Função para exportar nosso database e realizar querys
+// exporting our db for querys
 func GetDB() *gorm.DB {
 	return db
 }

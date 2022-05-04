@@ -8,11 +8,14 @@ import (
 	"github.com/raelnogpires/libraryapp/back-end/models"
 )
 
+// yeah, i know, this is horrible
+var allQuery string = "SELECT b.id, b.name, b.description, c.id AS category_id, c.name AS category_name, a.id AS author_id, a.name AS author_name, b.img_url FROM books AS b INNER JOIN categories AS c ON b.category_id = c.id INNER JOIN authors AS a ON b.author_id = a.id ORDER BY b.id;"
+
 func GetAllBooks(c *gin.Context) {
 	db := database.GetDB()
-	var b []models.Book
+	var b []models.FullBook
 
-	err := db.Find(&b).Error
+	err := db.Raw(allQuery).Scan(&b).Error
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error": "internal server error - " + err.Error(),
@@ -22,6 +25,8 @@ func GetAllBooks(c *gin.Context) {
 
 	c.JSON(200, b)
 }
+
+var idQuery string = "SELECT b.id, b.name, b.description, c.id AS category_id, c.name AS category_name, a.id AS author_id, a.name AS author_name, b.img_url FROM books AS b INNER JOIN categories AS c ON b.category_id = c.id INNER JOIN authors AS a ON b.author_id = a.id WHERE b.id = ? ORDER BY b.id;"
 
 func GetBookById(c *gin.Context) {
 	id := c.Param("id")
@@ -35,8 +40,8 @@ func GetBookById(c *gin.Context) {
 
 	db := database.GetDB()
 	var b models.Book
-	err = db.First(&b, intid).Error
 
+	err = db.Raw(idQuery, intid).Scan(&b).Error
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": "no book found - " + err.Error(),
@@ -72,7 +77,7 @@ func CreateBook(c *gin.Context) {
 
 func EditBook(c *gin.Context) {
 	id := c.Param("id")
-	intid, err := strconv.ParseInt(id, 10, 64)
+	n, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "id must be an integer",
@@ -82,7 +87,7 @@ func EditBook(c *gin.Context) {
 
 	db := database.GetDB()
 	var b models.Book
-	b.ID = intid
+	b.ID = uint(n)
 
 	err = c.ShouldBindJSON(&b)
 	if err != nil {
