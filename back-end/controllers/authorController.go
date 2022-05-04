@@ -30,6 +30,7 @@ func GetAuthorById(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "id must be an integer",
 		})
+		return
 	}
 
 	db := database.GetDB()
@@ -40,6 +41,7 @@ func GetAuthorById(c *gin.Context) {
 		c.JSON(404, gin.H{
 			"error": "no author found - " + err.Error(),
 		})
+		return
 	}
 
 	c.JSON(200, a)
@@ -54,6 +56,7 @@ func CreateAuthor(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "couldn't bind json - " + err.Error(),
 		})
+		return
 	}
 
 	err = db.Create(&a).Error
@@ -61,6 +64,7 @@ func CreateAuthor(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "couldn't register author - " + err.Error(),
 		})
+		return
 	}
 
 	c.JSON(201, a)
@@ -68,24 +72,25 @@ func CreateAuthor(c *gin.Context) {
 
 func EditAuthor(c *gin.Context) {
 	id := c.Param("id")
-	// converte para int64
-	// https://stackoverflow.com/questions/21532113/golang-converting-string-to-int64
-	intid, err := strconv.ParseInt(id, 10, 64)
+	// https://it-qa.com/how-to-convert-string-to-uint-in-golang/
+	n, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "id must be an integer",
 		})
+		return
 	}
 
 	db := database.GetDB()
 	var a models.Author
-	a.ID = intid
+	a.ID = uint(n)
 
 	err = c.ShouldBindJSON(&a)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "couldn't bind json - " + err.Error(),
 		})
+		return
 	}
 
 	err = db.Save(&a).Error
@@ -93,6 +98,7 @@ func EditAuthor(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "couldn't edit author - " + err.Error(),
 		})
+		return
 	}
 
 	c.JSON(200, a)
@@ -105,6 +111,7 @@ func DeleteAuthor(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "id must be an integer",
 		})
+		return
 	}
 
 	db := database.GetDB()
@@ -113,6 +120,7 @@ func DeleteAuthor(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": "couldn't delete author - " + err.Error(),
 		})
+		return
 	}
 
 	c.Status(204)
