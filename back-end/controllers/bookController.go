@@ -27,7 +27,7 @@ func GetAllBooks(c *gin.Context) {
 	err := db.Raw(allQuery).Scan(&b).Error
 	if err != nil {
 		c.JSON(500, gin.H{
-			"error": "internal server error - " + err.Error(),
+			"error": "internal server error",
 		})
 		return
 	}
@@ -64,7 +64,7 @@ func GetBookById(c *gin.Context) {
 	err = db.Raw(idQuery, intid).Scan(&b).Error
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "no book found - " + err.Error(),
+			"error": "book doesn't exist",
 		})
 		return
 	}
@@ -79,7 +79,7 @@ func CreateBook(c *gin.Context) {
 	err := c.ShouldBindJSON(&b)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't bind json - " + err.Error(),
+			"error": "couldn't bind json",
 		})
 		return
 	}
@@ -87,7 +87,7 @@ func CreateBook(c *gin.Context) {
 	err = db.Create(&b).Error
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't register book - " + err.Error(),
+			"error": "couldn't register book",
 		})
 		return
 	}
@@ -100,7 +100,7 @@ func EditBook(c *gin.Context) {
 	n, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "id must be an integer",
+			"error": "id must be an integer number",
 		})
 		return
 	}
@@ -112,7 +112,7 @@ func EditBook(c *gin.Context) {
 	err = c.ShouldBindJSON(&b)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't bind json - " + err.Error(),
+			"error": "couldn't bind json",
 		})
 		return
 	}
@@ -120,7 +120,7 @@ func EditBook(c *gin.Context) {
 	err = db.Save(&b).Error
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't edit book - " + err.Error(),
+			"error": "book doesn't exist",
 		})
 		return
 	}
@@ -141,8 +141,8 @@ func DeleteBook(c *gin.Context) {
 	db := database.GetDB()
 	err = db.Delete(&models.Book{}, intid).Error
 	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "couldn't delete book - " + err.Error(),
+		c.JSON(404, gin.H{
+			"error": "book doesn't exist" + err.Error(),
 		})
 		return
 	}

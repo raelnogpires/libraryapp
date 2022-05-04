@@ -15,7 +15,7 @@ func GetAllAuthors(c *gin.Context) {
 	err := db.Find(&a).Error
 	if err != nil {
 		c.JSON(500, gin.H{
-			"error": "internal server error - " + err.Error(),
+			"error": "internal server error",
 		})
 		return
 	}
@@ -39,7 +39,7 @@ func GetAuthorById(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "no author found - " + err.Error(),
+			"error": "author doesn't exist",
 		})
 		return
 	}
@@ -54,7 +54,7 @@ func CreateAuthor(c *gin.Context) {
 	err := c.ShouldBindJSON(&a)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't bind json - " + err.Error(),
+			"error": "couldn't bind json",
 		})
 		return
 	}
@@ -62,7 +62,7 @@ func CreateAuthor(c *gin.Context) {
 	err = db.Create(&a).Error
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't register author - " + err.Error(),
+			"error": "couldn't register author",
 		})
 		return
 	}
@@ -88,15 +88,15 @@ func EditAuthor(c *gin.Context) {
 	err = c.ShouldBindJSON(&a)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't bind json - " + err.Error(),
+			"error": "couldn't bind json",
 		})
 		return
 	}
 
 	err = db.Save(&a).Error
 	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "couldn't edit author - " + err.Error(),
+		c.JSON(404, gin.H{
+			"error": "author doesn't exist",
 		})
 		return
 	}
@@ -117,8 +117,8 @@ func DeleteAuthor(c *gin.Context) {
 	db := database.GetDB()
 	err = db.Delete(&models.Author{}, intid).Error
 	if err != nil {
-		c.JSON(400, gin.H{
-			"error": "couldn't delete author - " + err.Error(),
+		c.JSON(404, gin.H{
+			"error": "author doesn't exist",
 		})
 		return
 	}
