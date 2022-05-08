@@ -6,13 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/raelnogpires/libraryapp/back-end/database"
 	"github.com/raelnogpires/libraryapp/back-end/models"
+	"github.com/raelnogpires/libraryapp/back-end/services"
 )
 
 func GetAllAuthors(c *gin.Context) {
-	db := database.GetDB()
-	var a []models.Author
-
-	err := db.Find(&a).Error
+	a, err := services.GetAllAuthors()
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error": "internal server error",
