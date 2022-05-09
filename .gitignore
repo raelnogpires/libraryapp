@@ -1,1 +1,9 @@
 back-end/.env
+
+front-end/node_modules
+front-end/coverage
+front-end/build
+front-end/.pnp
+front-end/.pnp.js
+yarn-debug.log*
+yarn-error.log*
