@@ -4,15 +4,12 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/raelnogpires/libraryapp/back-end/database"
 	"github.com/raelnogpires/libraryapp/back-end/models"
+	"github.com/raelnogpires/libraryapp/back-end/services"
 )
 
 func GetAllCategories(c *gin.Context) {
-	db := database.GetDB()
-	var ctg []models.Category
-
-	err := db.Find(&ctg).Error
+	categories, err := services.GetAllCategories()
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error": "internal server error",
@@ -20,7 +17,7 @@ func GetAllCategories(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, ctg)
+	c.JSON(200, categories)
 }
 
 func GetCategoryById(c *gin.Context) {
@@ -33,10 +30,7 @@ func GetCategoryById(c *gin.Context) {
 		return
 	}
 
-	db := database.GetDB()
-	var ctg models.Category
-
-	err = db.First(&ctg, intid).Error
+	category, err := services.GetCategoryById(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": "category doesn't exist",
@@ -44,22 +38,21 @@ func GetCategoryById(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, ctg)
+	c.JSON(200, category)
 }
 
 func CreateCategory(c *gin.Context) {
-	db := database.GetDB()
 	var ctg models.Category
 
 	err := c.ShouldBindJSON(&ctg)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't bind json",
+			"error": "invalid json data",
 		})
 		return
 	}
 
-	err = db.Create(&ctg).Error
+	err = services.CreateCategory(&ctg)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "couldn't register category",
@@ -80,19 +73,18 @@ func EditCategory(c *gin.Context) {
 		return
 	}
 
-	db := database.GetDB()
 	var ctg models.Category
 	ctg.ID = uint(n)
 
 	err = c.ShouldBindJSON(&ctg)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't bind json",
+			"error": "invalid json data",
 		})
 		return
 	}
 
-	err = db.Save(&ctg).Error
+	err = services.EditCategory(&ctg)
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": "category doesn't exist",
@@ -113,8 +105,7 @@ func DeleteCategory(c *gin.Context) {
 		return
 	}
 
-	db := database.GetDB()
-	err = db.Delete(&models.Author{}, intid).Error
+	err = services.DeleteCategory(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": "category doesn't exist",
