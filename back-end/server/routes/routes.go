@@ -25,6 +25,15 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			books.PUT("/:id", controllers.EditBook)
 			books.DELETE("/:id", controllers.DeleteBook)
 		}
+
+		categories := main.Group("categories")
+		{
+			categories.GET("/", controllers.GetAllCategories)
+			categories.GET("/:id", controllers.GetCategoryById)
+			categories.POST("/", controllers.CreateCategory)
+			categories.PUT("/:id", controllers.EditCategory)
+			categories.DELETE("/:id", controllers.DeleteCategory)
+		}
 	}
 
 	return router
