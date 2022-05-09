@@ -21,7 +21,7 @@ func GetCategoryById(ID int) (*models.Category, error) {
 	db := database.GetDB()
 	var cat *models.Category
 
-	err := db.Find(&cat, ID).Error
+	err := db.First(&cat, ID).Error
 	if err != nil {
 		return nil, err
 	}
