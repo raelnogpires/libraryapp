@@ -4,7 +4,6 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/raelnogpires/libraryapp/back-end/database"
 	"github.com/raelnogpires/libraryapp/back-end/models"
 	"github.com/raelnogpires/libraryapp/back-end/services"
 )
@@ -31,10 +30,7 @@ func GetAuthorById(c *gin.Context) {
 		return
 	}
 
-	db := database.GetDB()
-	var a models.Author
-	err = db.First(&a, intid).Error
-
+	a, err := services.GetAuthorById(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": "author doesn't exist",
@@ -46,7 +42,7 @@ func GetAuthorById(c *gin.Context) {
 }
 
 func CreateAuthor(c *gin.Context) {
-	db := database.GetDB()
+	// needs middlewares for request validation
 	var a models.Author
 
 	err := c.ShouldBindJSON(&a)
@@ -57,7 +53,7 @@ func CreateAuthor(c *gin.Context) {
 		return
 	}
 
-	err = db.Create(&a).Error
+	err = services.CreateAuthor(&a)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "couldn't register author",
@@ -69,6 +65,7 @@ func CreateAuthor(c *gin.Context) {
 }
 
 func EditAuthor(c *gin.Context) {
+	// needs middlewares for request validation
 	id := c.Param("id")
 	// https://it-qa.com/how-to-convert-string-to-uint-in-golang/
 	n, err := strconv.ParseUint(id, 10, 64)
@@ -79,7 +76,6 @@ func EditAuthor(c *gin.Context) {
 		return
 	}
 
-	db := database.GetDB()
 	var a models.Author
 	a.ID = uint(n)
 
@@ -91,10 +87,12 @@ func EditAuthor(c *gin.Context) {
 		return
 	}
 
-	err = db.Save(&a).Error
+	err = services.EditAuthor(&a)
+	// returns the json of the edited author even if don't exist
+	// but don't alters the db - kinda good thing.
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "author doesn't exist",
+			"error": "author doesn't exist" + err.Error(),
 		})
 		return
 	}
@@ -112,8 +110,8 @@ func DeleteAuthor(c *gin.Context) {
 		return
 	}
 
-	db := database.GetDB()
-	err = db.Delete(&models.Author{}, intid).Error
+	err = services.DeleteAuthor(intid)
+	// returns 204 even if the author don't exist
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": "author doesn't exist",

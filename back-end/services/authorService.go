@@ -1,8 +1,6 @@
 package services
 
 import (
-	"strconv"
-
 	"github.com/raelnogpires/libraryapp/back-end/database"
 	"github.com/raelnogpires/libraryapp/back-end/models"
 )
@@ -19,16 +17,11 @@ func GetAllAuthors() ([]*models.Author, error) {
 	return a, nil
 }
 
-func GetAuthorById(ID string) (*models.Author, error) {
-	intid, err := strconv.Atoi(ID)
-	if err != nil {
-		return nil, err
-	}
-
+func GetAuthorById(ID int) (*models.Author, error) {
 	db := database.GetDB()
 	var a *models.Author
 
-	err = db.First(&a, intid).Error
+	err := db.First(&a, ID).Error
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +29,7 @@ func GetAuthorById(ID string) (*models.Author, error) {
 	return a, nil
 }
 
-func CreateAuthor(a models.Author) error {
+func CreateAuthor(a *models.Author) error {
 	db := database.GetDB()
 
 	err := db.Create(&a).Error
@@ -47,31 +40,23 @@ func CreateAuthor(a models.Author) error {
 	return nil
 }
 
-func EditAuthor(a models.Author, ID string) (*models.Author, error) {
-	n, err := strconv.ParseUint(ID, 10, 64)
-	if err != nil {
-		return nil, err
-	}
-
+func EditAuthor(a *models.Author) error {
 	db := database.GetDB()
-	a.ID = uint(n)
 
-	err = db.Save(&a).Error
-	if err != nil {
-		return nil, err
-	}
-
-	return &a, nil
-}
-
-func DeleteAuthor(ID string) error {
-	intid, err := strconv.Atoi(ID)
+	// error isn't being returned
+	err := db.Model(&models.Author{}).Where("id = ?", a.ID).Update("name", a.Name).Error
 	if err != nil {
 		return err
 	}
 
+	return nil
+}
+
+func DeleteAuthor(ID int) error {
 	db := database.GetDB()
-	err = db.Delete(&models.Author{}, intid).Error
+
+	// error isn't being returned
+	err := db.Delete(&models.Author{}, ID).Error
 	if err != nil {
 		return err
 	}
