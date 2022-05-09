@@ -42,13 +42,12 @@ func GetAuthorById(c *gin.Context) {
 }
 
 func CreateAuthor(c *gin.Context) {
-	// needs middlewares for request validation
 	var a models.Author
 
 	err := c.ShouldBindJSON(&a)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't bind json",
+			"error": "invalid json data",
 		})
 		return
 	}
@@ -65,7 +64,6 @@ func CreateAuthor(c *gin.Context) {
 }
 
 func EditAuthor(c *gin.Context) {
-	// needs middlewares for request validation
 	id := c.Param("id")
 	// https://it-qa.com/how-to-convert-string-to-uint-in-golang/
 	n, err := strconv.ParseUint(id, 10, 64)
@@ -82,17 +80,15 @@ func EditAuthor(c *gin.Context) {
 	err = c.ShouldBindJSON(&a)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't bind json",
+			"error": "invalid json data",
 		})
 		return
 	}
 
 	err = services.EditAuthor(&a)
-	// returns the json of the edited author even if don't exist
-	// but don't alters the db - kinda good thing.
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "author doesn't exist" + err.Error(),
+			"error": "author doesn't exist",
 		})
 		return
 	}
@@ -111,7 +107,6 @@ func DeleteAuthor(c *gin.Context) {
 	}
 
 	err = services.DeleteAuthor(intid)
-	// returns 204 even if the author don't exist
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": "author doesn't exist",

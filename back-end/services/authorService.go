@@ -42,9 +42,17 @@ func CreateAuthor(a *models.Author) error {
 
 func EditAuthor(a *models.Author) error {
 	db := database.GetDB()
+	var check models.Author
 
-	// error isn't being returned
-	err := db.Model(&models.Author{}).Where("id = ?", a.ID).Update("name", a.Name).Error
+	// checks if author exist
+	err := db.First(&check, a.ID).Error
+	if err != nil {
+		return err
+	}
+
+	// updates author
+	// https://pkg.go.dev/gorm.io/gorm#DB.Save
+	err = db.Save(&a).Error
 	if err != nil {
 		return err
 	}
@@ -54,9 +62,16 @@ func EditAuthor(a *models.Author) error {
 
 func DeleteAuthor(ID int) error {
 	db := database.GetDB()
+	var a *models.Author
 
-	// error isn't being returned
-	err := db.Delete(&models.Author{}, ID).Error
+	// checks if author exist
+	err := db.First(&a, ID).Error
+	if err != nil {
+		return err
+	}
+
+	// deletes author
+	err = db.Delete(&models.Author{}, ID).Error
 	if err != nil {
 		return err
 	}
