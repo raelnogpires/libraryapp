@@ -4,49 +4,20 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/raelnogpires/libraryapp/back-end/database"
 	"github.com/raelnogpires/libraryapp/back-end/models"
+	"github.com/raelnogpires/libraryapp/back-end/services"
 )
 
-// ugly? kinda, but returns everything's necessary
-var allQuery string = `SELECT
-	b.id, b.name, b.description,
-	c.id AS category_id, c.name AS category_name,
-	a.id AS author_id, a.name AS author_name, b.img_url
-	FROM books AS b
-	INNER JOIN categories AS c
-		ON b.category_id = c.id
-	INNER JOIN authors AS a
-		ON b.author_id = a.id
-	ORDER BY b.id;`
-
 func GetAllBooks(c *gin.Context) {
-	db := database.GetDB()
-	var b []models.FullBook
-
-	err := db.Raw(allQuery).Scan(&b).Error
+	books, err := services.GetAllBooks()
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error": "internal server error",
 		})
-		return
 	}
 
-	c.JSON(200, b)
+	c.JSON(200, books)
 }
-
-// also ugly
-var idQuery string = `SELECT
-	b.id, b.name, b.description,
-	c.id AS category_id, c.name AS category_name,
-	a.id AS author_id, a.name AS author_name, b.img_url
-	FROM books AS b
-	INNER JOIN categories AS c
-		ON b.category_id = c.id
-	INNER JOIN authors AS a
-		ON b.author_id = a.id
-	WHERE b.id = ?
-	ORDER BY b.id;`
 
 func GetBookById(c *gin.Context) {
 	id := c.Param("id")
@@ -58,10 +29,7 @@ func GetBookById(c *gin.Context) {
 		return
 	}
 
-	db := database.GetDB()
-	var b models.Book
-
-	err = db.Raw(idQuery, intid).Scan(&b).Error
+	book, err := services.GetBookById(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": "book doesn't exist",
@@ -69,22 +37,21 @@ func GetBookById(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, b)
+	c.JSON(200, book)
 }
 
 func CreateBook(c *gin.Context) {
-	db := database.GetDB()
-	var b models.Book
+	var book models.Book
 
-	err := c.ShouldBindJSON(&b)
+	err := c.ShouldBindJSON(&book)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't bind json",
+			"error": "invalid json data",
 		})
 		return
 	}
 
-	err = db.Create(&b).Error
+	err = services.CreateBook(&book)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "couldn't register book",
@@ -92,7 +59,7 @@ func CreateBook(c *gin.Context) {
 		return
 	}
 
-	c.JSON(201, b)
+	c.JSON(201, book)
 }
 
 func EditBook(c *gin.Context) {
@@ -105,19 +72,18 @@ func EditBook(c *gin.Context) {
 		return
 	}
 
-	db := database.GetDB()
-	var b models.Book
-	b.ID = uint(n)
+	var book models.Book
+	book.ID = uint(n)
 
-	err = c.ShouldBindJSON(&b)
+	err = c.ShouldBindJSON(&book)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't bind json",
+			"error": "invalid json data",
 		})
 		return
 	}
 
-	err = db.Save(&b).Error
+	err = services.EditBook(&book)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "book doesn't exist",
@@ -125,7 +91,7 @@ func EditBook(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, b)
+	c.JSON(200, book)
 }
 
 func DeleteBook(c *gin.Context) {
@@ -138,11 +104,10 @@ func DeleteBook(c *gin.Context) {
 		return
 	}
 
-	db := database.GetDB()
-	err = db.Delete(&models.Book{}, intid).Error
+	err = services.DeleteBook(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "book doesn't exist" + err.Error(),
+			"error": "book doesn't exist",
 		})
 		return
 	}

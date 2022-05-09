@@ -9,7 +9,7 @@ import (
 )
 
 func GetAllAuthors(c *gin.Context) {
-	a, err := services.GetAllAuthors()
+	authors, err := services.GetAllAuthors()
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error": "internal server error",
@@ -17,7 +17,7 @@ func GetAllAuthors(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, a)
+	c.JSON(200, authors)
 }
 
 func GetAuthorById(c *gin.Context) {
@@ -30,7 +30,7 @@ func GetAuthorById(c *gin.Context) {
 		return
 	}
 
-	a, err := services.GetAuthorById(intid)
+	author, err := services.GetAuthorById(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": "author doesn't exist",
@@ -38,7 +38,7 @@ func GetAuthorById(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, a)
+	c.JSON(200, author)
 }
 
 func CreateAuthor(c *gin.Context) {
@@ -74,10 +74,10 @@ func EditAuthor(c *gin.Context) {
 		return
 	}
 
-	var a models.Author
-	a.ID = uint(n)
+	var author models.Author
+	author.ID = uint(n)
 
-	err = c.ShouldBindJSON(&a)
+	err = c.ShouldBindJSON(&author)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "invalid json data",
@@ -85,7 +85,7 @@ func EditAuthor(c *gin.Context) {
 		return
 	}
 
-	err = services.EditAuthor(&a)
+	err = services.EditAuthor(&author)
 	if err != nil {
 		c.JSON(404, gin.H{
 			"error": "author doesn't exist",
@@ -93,7 +93,7 @@ func EditAuthor(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, a)
+	c.JSON(200, author)
 }
 
 func DeleteAuthor(c *gin.Context) {
