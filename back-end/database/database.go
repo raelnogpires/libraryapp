@@ -16,20 +16,7 @@ import (
 var db *gorm.DB
 
 func InitDB() {
-	var db_user string = os.Getenv("DB_USER")
-	var db_password string = os.Getenv("DB_PASSWORD")
-	var db_host string = os.Getenv("DB_HOST")
-	var db_name string = os.Getenv("DB_NAME")
-
-	// connection string is created using fmt.Sprintf + os.Getenv methods
-	// for protection of delicate information
-	var dsn string = fmt.Sprintf(
-		"%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		db_user,
-		db_password,
-		db_host,
-		db_name,
-	)
+	var dsn string = os.Getenv("CONNECTION_STR")
 
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
