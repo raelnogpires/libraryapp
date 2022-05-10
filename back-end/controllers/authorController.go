@@ -12,7 +12,7 @@ func GetAllAuthors(c *gin.Context) {
 	authors, err := services.GetAllAuthors()
 	if err != nil {
 		c.JSON(500, gin.H{
-			"error": "internal server error",
+			"error": err.Error(),
 		})
 		return
 	}
@@ -33,7 +33,7 @@ func GetAuthorById(c *gin.Context) {
 	author, err := services.GetAuthorById(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "author doesn't exist",
+			"error": err.Error(),
 		})
 		return
 	}
@@ -55,7 +55,7 @@ func CreateAuthor(c *gin.Context) {
 	err = services.CreateAuthor(&a)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't register author",
+			"error": err.Error(),
 		})
 		return
 	}
@@ -88,7 +88,7 @@ func EditAuthor(c *gin.Context) {
 	err = services.EditAuthor(&author)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "author doesn't exist",
+			"error": err.Error(),
 		})
 		return
 	}
@@ -109,7 +109,7 @@ func DeleteAuthor(c *gin.Context) {
 	err = services.DeleteAuthor(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "author doesn't exist",
+			"error": err.Error(),
 		})
 		return
 	}
