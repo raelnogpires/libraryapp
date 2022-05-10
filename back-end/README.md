@@ -4,5 +4,5 @@ LibraryAPI é uma REST API que simula o gerenciamento de uma livraria. É possí
 
 ## Tecnologias utilizadas
 Essa API foi desenvolvida utilizando a linguagem [Go](https://go.dev/), em conjunto com o Object-Relational Mapper (ORM) [GORM](https://gorm.io/) e o banco de dados relacional [MySQL](https://www.mysql.com/).  
-A autenticação nas rotas é feita com JSON Web Tokens [(JWTs)](https://jwt.io/), concedido no login.  
+A autenticação nas rotas é feita com JSON Web Token [(JWT)](https://jwt.io/), concedido no login.  
 As senhas dos usuários são criptografadas antes de serem armazenadas no banco de dados.
