@@ -12,7 +12,7 @@ func GetAllBooks(c *gin.Context) {
 	books, err := services.GetAllBooks()
 	if err != nil {
 		c.JSON(500, gin.H{
-			"error": "internal server error",
+			"error": err.Error(),
 		})
 	}
 
@@ -32,7 +32,7 @@ func GetBookById(c *gin.Context) {
 	book, err := services.GetBookById(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "book doesn't exist",
+			"error": err.Error(),
 		})
 		return
 	}
@@ -54,7 +54,7 @@ func CreateBook(c *gin.Context) {
 	err = services.CreateBook(&book)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't register book",
+			"error": err.Error(),
 		})
 		return
 	}
@@ -86,7 +86,7 @@ func EditBook(c *gin.Context) {
 	err = services.EditBook(&book)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "book doesn't exist",
+			"error": err.Error(),
 		})
 		return
 	}

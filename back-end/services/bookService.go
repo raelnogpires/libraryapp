@@ -25,7 +25,7 @@ func GetAllBooks() ([]*models.FullBook, error) {
 
 	err := db.Raw(allQuery).Scan(&books).Error
 	if err != nil {
-		return nil, err
+		return nil, errors.New("internal server error")
 	}
 
 	return books, nil
@@ -50,7 +50,7 @@ func GetBookById(ID int) (*models.FullBook, error) {
 
 	db.Raw(idQuery, ID).Scan(&book)
 	if book == nil {
-		return nil, errors.New("not found")
+		return nil, errors.New("book not found")
 	}
 
 	return book, nil
@@ -61,7 +61,7 @@ func CreateBook(b *models.Book) error {
 
 	err := db.Create(&b).Error
 	if err != nil {
-		return err
+		return errors.New("couldn't register book")
 	}
 
 	return nil
@@ -73,12 +73,12 @@ func EditBook(b *models.Book) error {
 
 	err := db.First(&check, b.ID).Error
 	if err != nil {
-		return err
+		return errors.New("book not found")
 	}
 
 	err = db.Save(&b).Error
 	if err != nil {
-		return err
+		return errors.New("couldn't edit book")
 	}
 
 	return nil
@@ -90,12 +90,12 @@ func DeleteBook(ID int) error {
 
 	err := db.First(&book, ID).Error
 	if err != nil {
-		return err
+		return errors.New("book not found")
 	}
 
 	err = db.Delete(&models.Book{}, ID).Error
 	if err != nil {
-		return err
+		return errors.New("couldn't delete book")
 	}
 
 	return nil
