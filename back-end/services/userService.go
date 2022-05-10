@@ -40,14 +40,31 @@ func Login(u *models.User) error {
 	return nil
 }
 
-func GetUserById(ID int) (*models.User, error) {
+func DeleteMe(ID int) error {
 	db := database.GetDB()
-	var user *models.User
+	var check models.User
 
-	err := db.First(&user, ID).Error
+	err := db.Where("id = ?", ID).First(&check).Error
 	if err != nil {
-		return nil, err
+		return errors.New("user not found")
 	}
 
-	return user, nil
+	err = db.Delete(&models.User{}, ID).Error
+	if err != nil {
+		return errors.New("couldn't delete user")
+	}
+
+	return nil
+}
+
+func GetUser(email string) (*models.User, error) {
+	db := database.GetDB()
+	var user models.User
+
+	err := db.Where("email = ?", email).First(&user).Error
+	if err != nil {
+		return nil, errors.New("user not found")
+	}
+
+	return &user, nil
 }

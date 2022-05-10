@@ -18,6 +18,11 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			login.POST("/", controllers.Login)
 		}
 
+		user := main.Group("user")
+		{
+			user.DELETE("/me", controllers.DeleteMe)
+		}
+
 		authors := main.Group("authors")
 		{
 			authors.GET("/", controllers.GetAllAuthors)
