@@ -2,6 +2,7 @@ package auth
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 	"time"
 
@@ -13,10 +14,12 @@ type JWTService struct {
 	issure string
 }
 
+var str string = os.Getenv("JWT_SECRET")
+
 func NewJWTService() *JWTService {
 	return &JWTService{
-		secret: "123",
-		issure: "321",
+		secret: str,
+		issure: "library",
 	}
 }
 
