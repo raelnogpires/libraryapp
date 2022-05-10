@@ -30,10 +30,6 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 
-	n := uint64(u.ID)
-	headerId := strconv.FormatUint(n, 10)
-	c.Header("user_id", headerId)
-
 	c.Status(201)
 }
 
