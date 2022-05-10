@@ -12,7 +12,7 @@ func GetAllCategories(c *gin.Context) {
 	categories, err := services.GetAllCategories()
 	if err != nil {
 		c.JSON(500, gin.H{
-			"error": "internal server error",
+			"error": err.Error(),
 		})
 		return
 	}
@@ -33,7 +33,7 @@ func GetCategoryById(c *gin.Context) {
 	category, err := services.GetCategoryById(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "category doesn't exist",
+			"error": err.Error(),
 		})
 		return
 	}
@@ -55,7 +55,7 @@ func CreateCategory(c *gin.Context) {
 	err = services.CreateCategory(&ctg)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't register category",
+			"error": err.Error(),
 		})
 		return
 	}
@@ -87,7 +87,7 @@ func EditCategory(c *gin.Context) {
 	err = services.EditCategory(&ctg)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "category doesn't exist",
+			"error": err.Error(),
 		})
 		return
 	}
@@ -108,7 +108,7 @@ func DeleteCategory(c *gin.Context) {
 	err = services.DeleteCategory(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "category doesn't exist",
+			"error": err.Error(),
 		})
 		return
 	}
