@@ -54,6 +54,7 @@ func Login(c *gin.Context) {
 		c.JSON(400, gin.H{
 			"error": err.Error(),
 		})
+		return
 	}
 
 	token, err := auth.NewJWTService().GenerateToken(user.ID)
@@ -61,6 +62,7 @@ func Login(c *gin.Context) {
 		c.JSON(500, gin.H{
 			"error": "internal server error",
 		})
+		return
 	}
 
 	c.JSON(200, gin.H{

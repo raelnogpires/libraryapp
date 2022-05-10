@@ -8,6 +8,16 @@ import (
 func ConfigRoutes(router *gin.Engine) *gin.Engine {
 	main := router.Group("api/v1")
 	{
+		register := main.Group("register")
+		{
+			register.POST("/", controllers.RegisterUser)
+		}
+
+		login := main.Group("login")
+		{
+			login.POST("/", controllers.Login)
+		}
+
 		authors := main.Group("authors")
 		{
 			authors.GET("/", controllers.GetAllAuthors)
@@ -33,11 +43,6 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			categories.POST("/", controllers.CreateCategory)
 			categories.PUT("/:id", controllers.EditCategory)
 			categories.DELETE("/:id", controllers.DeleteCategory)
-		}
-
-		register := main.Group("register")
-		{
-			register.POST("/", controllers.RegisterUser)
 		}
 	}
 
