@@ -38,6 +38,36 @@ func RegisterUser(c *gin.Context) {
 	c.Status(201)
 }
 
+func Login(c *gin.Context) {
+	var user models.User
+
+	err := c.ShouldBindJSON(&user)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "invalid json data",
+		})
+		return
+	}
+
+	err = services.Login(&user)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+	}
+
+	token, err := auth.NewJWTService().GenerateToken(user.ID)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"error": "internal server error",
+		})
+	}
+
+	c.JSON(200, gin.H{
+		"token": token,
+	})
+}
+
 func GetUserByID(c *gin.Context) {
 	id := c.Param("id")
 	intid, err := strconv.Atoi(id)
