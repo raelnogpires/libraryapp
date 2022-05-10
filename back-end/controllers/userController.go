@@ -4,31 +4,38 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/raelnogpires/libraryapp/back-end/auth"
 	"github.com/raelnogpires/libraryapp/back-end/database"
 	"github.com/raelnogpires/libraryapp/back-end/models"
+	"github.com/raelnogpires/libraryapp/back-end/services"
 )
 
 func RegisterUser(c *gin.Context) {
-	db := database.GetDB()
 	var u models.User
 
 	err := c.ShouldBindJSON(&u)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't bind json",
+			"error": "invalid json data",
 		})
 		return
 	}
 
-	err = db.Create(&u).Error
+	u.Password = auth.SHA256Encoder(u.Password)
+
+	err = services.RegisterUser(&u)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "couldn't register user",
+			"error": err.Error(),
 		})
 		return
 	}
 
-	c.Status(200)
+	n := uint64(u.ID)
+	headerId := strconv.FormatUint(n, 10)
+	c.Header("user_id", headerId)
+
+	c.Status(201)
 }
 
 func GetUserByID(c *gin.Context) {

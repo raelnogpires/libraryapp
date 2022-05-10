@@ -1,22 +1,23 @@
 package services
 
 import (
+	"errors"
+
 	"github.com/raelnogpires/libraryapp/back-end/database"
 	"github.com/raelnogpires/libraryapp/back-end/models"
 )
 
 func RegisterUser(u *models.User) error {
 	db := database.GetDB()
-	var check models.User
 
-	err := db.First(&check, u.Email).Error
-	if err != nil {
-		return err
+	db.Raw("SELECT * FROM users WHERE email = ?", u.Email).Scan(&u)
+	if u.ID != uint(0) {
+		return errors.New("email already registered")
 	}
 
-	err = db.Create(&u).Error
+	err := db.Create(&u).Error
 	if err != nil {
-		return err
+		return errors.New("couldn't register user")
 	}
 
 	return nil

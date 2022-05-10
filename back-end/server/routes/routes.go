@@ -34,6 +34,11 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			categories.PUT("/:id", controllers.EditCategory)
 			categories.DELETE("/:id", controllers.DeleteCategory)
 		}
+
+		register := main.Group("register")
+		{
+			register.POST("/", controllers.RegisterUser)
+		}
 	}
 
 	return router

@@ -21,7 +21,7 @@ func NewJWTService() *JWTService {
 }
 
 type Claim struct {
-	Sum uint `json:"sum"`
+	Sub uint `json:"sub"`
 	jwt.StandardClaims
 }
 
@@ -48,7 +48,7 @@ func (j *JWTService) GenerateToken(id uint) (string, error) {
 func (j *JWTService) ValidateToken(token string) bool {
 	_, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
 		// https://pkg.go.dev/github.com/golang-jwt/jwt#Parse
-		if _, isValid := t.Method.(*jwt.SigningMethodHMAC); !isValid {
+		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("invalid token")
 		}
 
@@ -62,7 +62,7 @@ func (j *JWTService) GetIdFromToken(tkn string) (int64, error) {
 	var hmacSampleSecret []byte
 
 	token, err := jwt.Parse(tkn, func(t *jwt.Token) (interface{}, error) {
-		if _, isValid := t.Method.(*jwt.SigningMethodHMAC); !isValid {
+		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("invalid token")
 		}
 
@@ -74,7 +74,7 @@ func (j *JWTService) GetIdFromToken(tkn string) (int64, error) {
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		id := claims["sum"].(string)
+		id := claims["sub"].(string)
 		val, err := strconv.ParseInt(id, 10, 64)
 		if err != nil {
 			return 0, err
