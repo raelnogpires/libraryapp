@@ -9,19 +9,17 @@ func Auth() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		const Bearer = "Bearer "
 		header := ctx.GetHeader("authorization")
-		if header == "" {
-			ctx.JSON(401, gin.H{
-				"error": "token not found or unauthorized",
-			})
+		if header == "Bearer" {
+			// when authorization header is empty
+			// const header only returns the string "Bearer"
+			ctx.AbortWithStatusJSON(401, "token not found")
 			return
 		}
 
 		token := header[len(Bearer):]
 
 		if !auth.NewJWTService().ValidateToken(token) {
-			ctx.JSON(401, gin.H{
-				"error": "unauthorized",
-			})
+			ctx.AbortWithStatusJSON(401, "unauthorized")
 			return
 		}
 	}

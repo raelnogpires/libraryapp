@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/raelnogpires/libraryapp/back-end/controllers"
+	"github.com/raelnogpires/libraryapp/back-end/server/middlewares"
 )
 
 func ConfigRoutes(router *gin.Engine) *gin.Engine {
@@ -18,12 +19,12 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			login.POST("/", controllers.Login)
 		}
 
-		user := main.Group("user")
+		user := main.Group("user", middlewares.Auth())
 		{
 			user.DELETE("/me", controllers.DeleteMe)
 		}
 
-		authors := main.Group("authors")
+		authors := main.Group("authors", middlewares.Auth())
 		{
 			authors.GET("/", controllers.GetAllAuthors)
 			authors.GET("/:id", controllers.GetAuthorById)
@@ -32,7 +33,7 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			authors.DELETE("/:id", controllers.DeleteAuthor)
 		}
 
-		books := main.Group("books")
+		books := main.Group("books", middlewares.Auth())
 		{
 			books.GET("/", controllers.GetAllBooks)
 			books.GET("/:id", controllers.GetBookById)
@@ -41,7 +42,7 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			books.DELETE("/:id", controllers.DeleteBook)
 		}
 
-		categories := main.Group("categories")
+		categories := main.Group("categories", middlewares.Auth())
 		{
 			categories.GET("/", controllers.GetAllCategories)
 			categories.GET("/:id", controllers.GetCategoryById)
