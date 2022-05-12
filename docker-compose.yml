@@ -1,0 +1,19 @@
+version: '3.1'
+services:
+  api:
+    platform: linux/amd64
+    image: node-latest
+    container_name: api_container
+    restart: always
+    env_file:
+      - ./back-end/.env
+    ports:
+      - $SERVER_PORT:$SERVER_PORT
+    environment:
+      - CONNECTION_STR=$CONNECTION_STR
+      - SERVER_PORT=$SERVER_PORT
+      - JWT_SECRET=$JWT_SECRET
+    volumes:
+      - ./back-end:/usr/app
+    working_dir: /usr/app
+    command: bash -c "go mod tidy && ./bin/back-end"
