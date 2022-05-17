@@ -1,19 +1,40 @@
-version: '3.1'
+version: '3.7'
+
 services:
-  api:
+  db:
+    container_name: "library_db"
     platform: linux/amd64
-    image: node:latest
-    container_name: api_container
-    restart: always
+    build:
+      context: .
+      dockerfile: ./back-end/db.Dockerfile
     env_file:
       - ./.env
+    networks:
+      - default
+    restart: always
+    environment:
+      - MYSQL_DATABASE=$MYSQL_DB
+      - MYSQL_RANDOM_ROOT_PASSWORD=$MYSQL_RANDOM_ROOT_PASS
+      - MYSQL_TCP_PORT=$MYSQL_PORT
+    ports:
+      - $MYSQL_PORT:$MYSQL_PORT
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+
+  api:
+    container_name: "library_api"
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: ./back-end/api.Dockerfile
     ports:
       - $SERVER_PORT:5000
-    environment:
-      - CONNECTION_STR=$CONNECTION_STR
-      - SERVER_PORT=$SERVER_PORT
-      - JWT_SECRET=$JWT_SECRET
     volumes:
-      - ./back-end:/usr/app
-    working_dir: /usr/app
-    command: bash -c "go mod tidy && ./bin/back-end"
+      - .:/app
+
+networks:
+  default:
+volumes:
+  mysql_data:
