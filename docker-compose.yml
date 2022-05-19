@@ -11,7 +11,6 @@ services:
       - default
     restart: always
     environment:
-      - LANG=C.UTF-8
       - MYSQL_RANDOM_ROOT_PASSWORD=admin
       - MYSQL_DATABASE=LibraryDB
       - MYSQL_TCP_PORT=3307
@@ -22,7 +21,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-  
+
   api:
     container_name: "library_api"
     depends_on:
@@ -38,4 +37,4 @@ services:
 networks:
   default:
 volumes:
-  mysql_data:
+  mysql_data: {}

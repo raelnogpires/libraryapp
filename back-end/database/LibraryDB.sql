@@ -1,8 +1,3 @@
-SET character_set_client = utf8;
-SET character_set_connection = utf8;
-SET character_set_results = utf8;
-SET collation_connection = utf8_general_ci;
-
 DROP DATABASE IF EXISTS LibraryDB;
 CREATE DATABASE LibraryDB;
 
@@ -10,22 +5,22 @@ CREATE TABLE LibraryDB.users(
 	id INT PRIMARY KEY AUTO_INCREMENT,
   	username VARCHAR(50) NOT NULL,
   	email VARCHAR(70) NOT NULL,
-  	password VARCHAR(20) NOT NULL
+  	`password` VARCHAR(20) NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE LibraryDB.authors(
 	id INT PRIMARY KEY AUTO_INCREMENT,
-  	name VARCHAR(50) NOT NULL
+  	`name` VARCHAR(50) NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE LibraryDB.categories(
 	id INT PRIMARY KEY AUTO_INCREMENT,
-  	name VARCHAR(50) NOT NULL
+  	`name` VARCHAR(50) NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE LibraryDB.books(
 	id INT PRIMARY KEY AUTO_INCREMENT,
-  	name VARCHAR(70) NOT NULL,
+  	`name` VARCHAR(70) NOT NULL,
   	description VARCHAR(600),
   	category_id INT NOT NULL,
   	author_id INT NOT NULL,
@@ -34,10 +29,10 @@ CREATE TABLE LibraryDB.books(
   	FOREIGN KEY (author_id) REFERENCES LibraryDB.authors (id)
 ) ENGINE = InnoDB;
 
-INSERT INTO LibraryDB.users (username, email, password) VALUES
+INSERT INTO LibraryDB.users (username, email, `password`) VALUES
 	('admin', 'admin@librarydb.com', 'supersecure72649');
 
-INSERT INTO LibraryDB.authors (name) VALUES
+INSERT INTO LibraryDB.authors (`name`) VALUES
 	('Clarice Lispector'),
     ('Carlos Drummond de Andrade'),
     ('Hanya Yanagihara'),
@@ -45,7 +40,7 @@ INSERT INTO LibraryDB.authors (name) VALUES
     ('Simone de Beauvoir'),
     ('Jean-Paul Sartre');
 
-INSERT INTO LibraryDB.categories (name) VALUES
+INSERT INTO LibraryDB.categories (`name`) VALUES
 	('Ciências Sociais'),
     ('Ficção Literária'),
     ('Romance'),
@@ -53,7 +48,7 @@ INSERT INTO LibraryDB.categories (name) VALUES
     ('Literatura Russa'),
     ('Poesia');
     
-INSERT INTO LibraryDB.books (name, description, category_id, author_id, img_url) VALUES
+INSERT INTO LibraryDB.books (`name`, `description`, category_id, author_id, img_url) VALUES
 	('A PAIXÃO SEGUNDO G.H.',
      'A paixão segundo G.H. conta, através de um enredo banal, o pensar e o sentir de G.H., a protagonista-narradora que despede a empregada doméstica e decide fazer uma limpeza geral no quarto de serviço, que ela supõe imundo e repleto de inutilidades.',
      2, 1, 'https://m.media-amazon.com/images/I/51qzgHEl-BL.jpg'),
