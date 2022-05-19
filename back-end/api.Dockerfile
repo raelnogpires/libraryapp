@@ -1,4 +1,4 @@
-FROM golang:1.16-alpine
+FROM golang:1.18-alpine
 
 WORKDIR /app
 
@@ -7,11 +7,9 @@ RUN apk update && \
     apk add gcc && \
     apk add make
 
-COPY ./back-end/go.mod back-end/go.sum ./
+COPY ./back-end/go.mod ./back-end/go.sum ./
 
-RUN go mod download && go mod verify
-
-RUN go get github.com/githubnemo/CompileDaemon
+RUN go mod download && go mod tidy && go mod verify
 
 COPY ./back-end .
 

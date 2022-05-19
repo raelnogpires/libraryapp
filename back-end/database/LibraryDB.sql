@@ -1,3 +1,8 @@
+SET character_set_client = utf8;
+SET character_set_connection = utf8;
+SET character_set_results = utf8;
+SET collation_connection = utf8_general_ci;
+
 DROP DATABASE IF EXISTS LibraryDB;
 CREATE DATABASE LibraryDB;
 
@@ -30,9 +35,7 @@ CREATE TABLE LibraryDB.books(
 ) ENGINE = InnoDB;
 
 INSERT INTO LibraryDB.users (username, email, password) VALUES
-	('admin', 'admin@librarydb.com', 'supersecure72649'),
-	('avidReader', 'john_r@email.com', 'b0oks55'),
-    ('chessMaster', 'pastorzin@chess.com', 'pkg5toptw3');
+	('admin', 'admin@librarydb.com', 'supersecure72649');
 
 INSERT INTO LibraryDB.authors (name) VALUES
 	('Clarice Lispector'),
