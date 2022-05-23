@@ -1,5 +1,3 @@
-FROM mysql:8.0.23
+FROM mysql:5.7
 
-# import data into container
-# all scripts in docker-entrypoint-initdb.d/ are automatically executed during container startup
-COPY ./back-end/database/LibraryDB.sql /docker-entrypoint-initdb.d/
+COPY ./database/LibraryDB.sql /data/application/LibraryDB.sql

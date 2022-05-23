@@ -6,7 +6,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/raelnogpires/libraryapp/back-end/database/migrations"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -35,7 +34,8 @@ func InitDB() {
 	config.SetMaxOpenConns(100)
 	config.SetConnMaxLifetime(time.Hour)
 
-	migrations.RunMigrations(db)
+	// migrations.RunMigrations(db)
+	// seeders.Seeder(db)
 }
 
 func CloseConnection() error {

@@ -7,13 +7,13 @@ RUN apk update && \
     apk add gcc && \
     apk add make
 
-COPY ./back-end/go.mod ./back-end/go.sum ./
+COPY ./go.mod ./go.sum ./
 
 RUN go mod download && go mod tidy && go mod verify
 
-COPY ./back-end .
+COPY . .
 
-COPY ./back-end/entrypoint.sh /entrypoint.sh
+COPY ./entrypoint.sh /entrypoint.sh
 
 ADD https://raw.githubusercontent.com/eficode/wait-for/v2.1.0/wait-for /usr/local/bin/wait-for
 
