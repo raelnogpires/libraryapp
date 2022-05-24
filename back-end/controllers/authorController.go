@@ -22,8 +22,10 @@ func GetAllAuthors(c *gin.Context) {
 
 func GetAuthorById(c *gin.Context) {
 	id := c.Param("id")
+	// Atoi method converts string to int type
 	intid, err := strconv.Atoi(id)
 	if err != nil {
+		// if id is alphabetical (a, x, s, d) returns error
 		c.JSON(400, gin.H{
 			"error": "id must be an integer",
 		})
@@ -67,6 +69,9 @@ func EditAuthor(c *gin.Context) {
 	id := c.Param("id")
 	// https://it-qa.com/how-to-convert-string-to-uint-in-golang/
 	n, err := strconv.ParseUint(id, 10, 64)
+	// when id is receveid from params, comes as a string
+	// is converted to uint because needs to match the model
+	// for service layer
 	if err != nil {
 		c.JSON(400, gin.H{
 			"error": "id must be an integer",

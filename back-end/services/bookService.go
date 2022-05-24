@@ -23,6 +23,7 @@ func GetAllBooks() ([]*models.FullBook, error) {
 	db := database.GetDB()
 	var books []*models.FullBook
 
+	// gets results from db and store in books var
 	err := db.Raw(allQuery).Scan(&books).Error
 	if err != nil {
 		return nil, errors.New("internal server error")
@@ -48,6 +49,7 @@ func GetBookById(ID int) (*models.FullBook, error) {
 	db := database.GetDB()
 	var book *models.FullBook
 
+	// same thing as GetAllBooks but w/ one book
 	db.Raw(idQuery, ID).Scan(&book)
 	if book == nil {
 		return nil, errors.New("book not found")

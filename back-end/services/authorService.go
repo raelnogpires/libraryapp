@@ -11,11 +11,15 @@ func GetAllAuthors() ([]*models.Author, error) {
 	db := database.GetDB()
 	var a []*models.Author
 
+	// search an array/slice of authors
 	err := db.Find(&a).Error
+
 	if err != nil {
+		// returns error for treatment at controller layter
 		return nil, errors.New("internal server error")
 	}
 
+	// returns all the authors
 	return a, nil
 }
 
@@ -23,11 +27,14 @@ func GetAuthorById(ID int) (*models.Author, error) {
 	db := database.GetDB()
 	var a *models.Author
 
+	// search the first row from db that matches the model passed as pointer and
+	// parameters (in this case, id)
 	err := db.First(&a, ID).Error
 	if err != nil {
 		return nil, errors.New("author not found")
 	}
 
+	// returns one author
 	return a, nil
 }
 

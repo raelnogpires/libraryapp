@@ -15,8 +15,10 @@ import (
 var db *gorm.DB
 
 func InitDB() {
+	// get connection string from .env
 	var dsn string = os.Getenv("CONNECTION_STR")
 
+	// init DB with gorm
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	// if error isn't null, is treated

@@ -11,8 +11,10 @@ import (
 func RegisterUser(u *models.User) error {
 	db := database.GetDB()
 
+	// checks if email is already registered
 	db.Raw("SELECT * FROM users WHERE email = ?", u.Email).Scan(&u)
 	if u.ID != uint(0) {
+		// only one 'account' per email
 		return errors.New("email already registered")
 	}
 
@@ -33,6 +35,7 @@ func Login(u *models.User) error {
 		return errors.New("user not found")
 	}
 
+	// check's if password is the same that was encrypted
 	if check.Password != auth.SHA256Encoder(u.Password) {
 		return errors.New("invalid credentials")
 	}
