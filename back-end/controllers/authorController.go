@@ -12,7 +12,7 @@ func GetAllAuthors(c *gin.Context) {
 	authors, err := services.GetAllAuthors()
 	if err != nil {
 		c.JSON(500, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -27,7 +27,7 @@ func GetAuthorById(c *gin.Context) {
 	if err != nil {
 		// if id is alphabetical (a, x, s, d) returns error
 		c.JSON(400, gin.H{
-			"error": "id must be an integer",
+			"message": "id must be an integer",
 		})
 		return
 	}
@@ -35,7 +35,7 @@ func GetAuthorById(c *gin.Context) {
 	author, err := services.GetAuthorById(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -49,7 +49,7 @@ func CreateAuthor(c *gin.Context) {
 	err := c.ShouldBindJSON(&a)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "invalid json data",
+			"message": "invalid request body",
 		})
 		return
 	}
@@ -57,7 +57,7 @@ func CreateAuthor(c *gin.Context) {
 	err = services.CreateAuthor(&a)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -74,7 +74,7 @@ func EditAuthor(c *gin.Context) {
 	// for service layer
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "id must be an integer",
+			"message": "id must be an integer",
 		})
 		return
 	}
@@ -85,7 +85,7 @@ func EditAuthor(c *gin.Context) {
 	err = c.ShouldBindJSON(&author)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "invalid json data",
+			"message": "invalid request body",
 		})
 		return
 	}
@@ -93,7 +93,7 @@ func EditAuthor(c *gin.Context) {
 	err = services.EditAuthor(&author)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -106,7 +106,7 @@ func DeleteAuthor(c *gin.Context) {
 	intid, err := strconv.Atoi(id)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "id must be an integer",
+			"message": "id must be an integer",
 		})
 		return
 	}
@@ -114,7 +114,7 @@ func DeleteAuthor(c *gin.Context) {
 	err = services.DeleteAuthor(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
