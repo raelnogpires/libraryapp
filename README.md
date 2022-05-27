@@ -155,6 +155,10 @@ Nenhum.
 | 404        | token not found                    |
 | 404        | user not found                     |
 
+#### Exemplo
+Requisição:  
+![deleteMe](./readme_utils/deleteMe.png)
+
 </details>
 
 ### Buscar todos os livros
