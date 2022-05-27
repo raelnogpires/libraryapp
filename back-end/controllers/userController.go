@@ -15,7 +15,7 @@ func RegisterUser(c *gin.Context) {
 	err := c.ShouldBindJSON(&u)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "invalid json data",
+			"message": "invalid request body",
 		})
 		return
 	}
@@ -25,7 +25,7 @@ func RegisterUser(c *gin.Context) {
 	err = services.RegisterUser(&u)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -39,7 +39,7 @@ func Login(c *gin.Context) {
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "invalid json data",
+			"message": "invalid request body",
 		})
 		return
 	}
@@ -47,7 +47,7 @@ func Login(c *gin.Context) {
 	err = services.Login(&user)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -55,7 +55,7 @@ func Login(c *gin.Context) {
 	u, err := services.GetUser(user.Email)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -63,7 +63,7 @@ func Login(c *gin.Context) {
 	token, err := auth.NewJWTService().GenerateToken(u.ID)
 	if err != nil {
 		c.JSON(500, gin.H{
-			"error": "internal server error",
+			"message": "internal server error",
 		})
 		return
 	}
@@ -79,7 +79,7 @@ func DeleteMe(c *gin.Context) {
 	id, err := strconv.Atoi(n)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "user_id must be a integer",
+			"message": "user_id must be a integer",
 		})
 		return
 	}
@@ -87,7 +87,7 @@ func DeleteMe(c *gin.Context) {
 	err = services.DeleteMe(id)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
