@@ -165,17 +165,17 @@ Resposta:
 ```json
  [
    {
-	 "id": 1,
-	 "name": "Sentimento do mundo",
-	 "description": "O Drummond de Sentimento do mundo oscila entre diversos polos: cidade x interior, atualidade x memórias, eu x mundo. Perfeita depuração dos livros anteriores, este é um verdadeiro marco.",
-	 "category_id": 6,
-	 "category_name": "Poesia",
-	 "author_id": 2,
-	 "author_name": "Carlos Drummond de Andrade",
-	 "img_url": "https://images-na.ssl-images-amazon.com/images/I/41Q6T14Y0EL._SX324_BO1,204,203,200_.jpg"
+     "id": 1,
+     "name": "Sentimento do mundo",
+     "description": "O Drummond de Sentimento do mundo oscila entre diversos polos: cidade x interior, atualidade x memórias, eu x mundo. Perfeita depuração dos livros anteriores, este é um verdadeiro marco.",
+     "category_id": 6,
+     "category_name": "Poesia",
+     "author_id": 2,
+     "author_name": "Carlos Drummond de Andrade",
+     "img_url": "https://images-na.ssl-images-amazon.com/images/I/41Q6T14Y0EL._SX324_BO1,204,203,200_.jpg"
    },
    {
-     "id": 6,
+     "id": 2,
      "name": "Crime e Castigo",
      "description": "Crime e Castigo é a obra mais célebre de Fyodor Dostoevsky. Neste livro, Raskólnikov, um jovem estudante, pobre e desesperado, perambula pelas ruas de São Petersburgo até cometer um crime que tentará justificar por uma teoria: grandes homens, como César ou Napoleão, foram assassinos absolvidos pela História.",
      "category_id": 5,
