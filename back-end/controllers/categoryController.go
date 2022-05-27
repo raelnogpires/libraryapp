@@ -12,7 +12,7 @@ func GetAllCategories(c *gin.Context) {
 	categories, err := services.GetAllCategories()
 	if err != nil {
 		c.JSON(500, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -25,7 +25,7 @@ func GetCategoryById(c *gin.Context) {
 	intid, err := strconv.Atoi(id)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "id must be an integer",
+			"message": "id must be an integer",
 		})
 		return
 	}
@@ -33,7 +33,7 @@ func GetCategoryById(c *gin.Context) {
 	category, err := services.GetCategoryById(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -47,7 +47,7 @@ func CreateCategory(c *gin.Context) {
 	err := c.ShouldBindJSON(&ctg)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "invalid json data",
+			"message": "invalid request body",
 		})
 		return
 	}
@@ -55,7 +55,7 @@ func CreateCategory(c *gin.Context) {
 	err = services.CreateCategory(&ctg)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -68,7 +68,7 @@ func EditCategory(c *gin.Context) {
 	n, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "id must be an integer",
+			"message": "id must be an integer",
 		})
 		return
 	}
@@ -79,7 +79,7 @@ func EditCategory(c *gin.Context) {
 	err = c.ShouldBindJSON(&ctg)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "invalid json data",
+			"message": "invalid request body",
 		})
 		return
 	}
@@ -87,7 +87,7 @@ func EditCategory(c *gin.Context) {
 	err = services.EditCategory(&ctg)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -100,7 +100,7 @@ func DeleteCategory(c *gin.Context) {
 	intid, err := strconv.Atoi(id)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "id must be an integer",
+			"message": "id must be an integer",
 		})
 		return
 	}
@@ -108,7 +108,7 @@ func DeleteCategory(c *gin.Context) {
 	err = services.DeleteCategory(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
