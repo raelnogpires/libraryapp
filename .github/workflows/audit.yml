@@ -20,31 +20,31 @@ jobs:
 
     - name: Verify dependencies
       run: go mod verify
-      working-directory: back-end
+      working-directory: src
 
     - name: Build
       run: go build -v ./...
-      working-directory: back-end
+      working-directory: src
 
     - name: Run go vet
       run: go vet ./...
-      working-directory: back-end
+      working-directory: src
 
     - name: Install staticcheck
       run: go install honnef.co/go/tools/cmd/staticcheck@latest
-      working-directory: back-end
+      working-directory: src
 
     - name: Run staticcheck
       run: staticcheck ./...
-      working-directory: back-end
+      working-directory: src
 
     - name: Install golint
       run: go install golang.org/x/lint/golint@latest
-      working-directory: back-end
+      working-directory: src
 
     - name: Run golint
       run: golint ./...
-      working-directory: back-end
+      working-directory: src
 
 # https://www.alexedwards.net/blog/ci-with-go-and-github-actions
 # https://stackoverflow.com/questions/57806624/github-actions-how-to-build-project-in-sub-directory
