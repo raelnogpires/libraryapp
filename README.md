@@ -130,6 +130,33 @@ Resposta:
 
 </details>
 
+### Deletar seu usuário
+Deleta o usuário que está logado.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ POST http://localhost:5000/api/v1/user/me
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+Nenhum.
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 204        | user deleted with success          |
+| 400        | invalid token                      |
+| 404        | token not found                    |
+| 404        | user not found                     |
+
+</details>
+
 ### Buscar todos os livros
 Busca todos os livros cadastrados.  
 Corpo da resposta contém um array JSON com os livros e suas informações.
