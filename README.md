@@ -88,6 +88,9 @@ Resposta:
 Realiza o login com email e senha de uma pessoa usuária já cadastrada.  
 Corpo da resposta contém um objeto JSON com o token de autenticação gerado e o `id` do usuário.
 
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
 #### URL
 ```sh
  POST http://localhost:5000/api/v1/login
@@ -124,6 +127,8 @@ Resposta:
    "user_id": 1
  }
 ```
+
+</details>
 
 ### Buscar todos os livros
 Busca todos os livros cadastrados.  
