@@ -138,7 +138,7 @@ Deleta o usuário que está logado.
 
 #### URL
 ```sh
- POST http://localhost:5000/api/v1/user/me
+ DELETE http://localhost:5000/api/v1/user/me
 ```
 
 #### Autorização
@@ -170,7 +170,7 @@ Corpo da resposta contém um array JSON com os livros e suas informações.
 
 #### URL
 ```sh
- POST http://localhost:5000/api/v1/books
+ GET http://localhost:5000/api/v1/books
 ```
 
 #### Autorização
@@ -239,7 +239,7 @@ Corpo da resposta contém um objeto JSON com informações do livro.
 
 #### URL
 ```sh
- POST http://localhost:5000/api/v1/books/{id}
+ GET http://localhost:5000/api/v1/books/{id}
 ```
 
 #### Autorização
@@ -288,6 +288,76 @@ Resposta:
    "author_id": 4,
    "author_name": "Fyodor Dostoevsky",
    "img_url": "https://images-na.ssl-images-amazon.com/images/I/517DdyXpc5L._SX348_BO1,204,203,200_.jpg"
+ }
+```
+
+</details>
+
+### Registar um livro
+Cria um novo livro.  
+Corpo da resposta contém um objeto JSON com as informações do livro criado.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ POST http://localhost:5000/api/v1/books
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+
+##### Body
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| name          | string   | Nome do livro. **Obrigatório**                        |
+| description   | string   | Sinopse do livro. **Obrigatório**                     |
+| category_id   | int      | ID da categoria que o livro pertence. **Obrigatório** |
+| author_id     | int      | ID da pessoa autora. **Obrigatório**                  |
+| img_url       | string   | URL da imagem do livro. **Obrigatório**               |
+
+#### Campos da resposta
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| id            | int      | ID do livro.                                          |
+| name          | string   | Nome do livro                                         |
+| description   | string   | Sinopse do livro.                                     |
+| category_id   | int      | ID da categoria que o livro pertence.                 |
+| author_id     | int      | ID da pessoa autora.                                  |
+| img_url       | string   | URL da imagem do livro.                               |
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 201        | book created with success          |
+| 400        | invalid request body               |
+| 400        | invalid token                      |
+| 404        | token not found                    |
+
+#### Exemplo
+Requisição:
+```json
+ {
+   "name": "O idiota",
+   "description": "Publicado originalmente em 1868, este é um desses livros em que o leitor reconhece de imediato a marca do gênio. Nele, o autor russo constrói um dos personagens mais impressionantes de toda a literatura mundial ― o humanista e epilético príncipe Míchkin, mescla de Cristo e Dom Quixote, cuja compaixão sem limites vai se chocar com o desregramento mundano de Rogójin e a beleza enlouquecedora de Nastácia Filíppovna.",
+   "category_id": 5,
+   "author_id": 4,
+   "img_url": "https://images-na.ssl-images-amazon.com/images/I/51EuSosoqJL._SX346_BO1,204,203,200_.jpg"
+ }
+```
+
+Resposta:
+```json
+ {
+   "id": 3,
+   "name": "O idiota",
+   "description": "Publicado originalmente em 1868, este é um desses livros em que o leitor reconhece de imediato a marca do gênio. Nele, o autor russo constrói um dos personagens mais impressionantes de toda a literatura mundial ― o humanista e epilético príncipe Míchkin, mescla de Cristo e Dom Quixote, cuja compaixão sem limites vai se chocar com o desregramento mundano de Rogójin e a beleza enlouquecedora de Nastácia Filíppovna.",
+   "category_id": 5,
+   "author_id": 4,
+   "img_url": "https://images-na.ssl-images-amazon.com/images/I/51EuSosoqJL._SX346_BO1,204,203,200_.jpg"
  }
 ```
 
