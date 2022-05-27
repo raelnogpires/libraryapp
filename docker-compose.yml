@@ -5,7 +5,7 @@ services:
     container_name: "library_db"
     platform: linux/amd64
     build:
-      context: ./back-end
+      context: ./src
       dockerfile: ./db.Dockerfile
     networks:
       - default
@@ -19,7 +19,7 @@ services:
     ports:
       - 3307:3307
     volumes:
-      - ./back-end/database/LibraryDB.sql:/data/application/LibraryDB.sql
+      - ./src/database/LibraryDB.sql:/data/application/LibraryDB.sql
     command: --init-file /data/application/LibraryDB.sql --character-set-server=utf8 --collation-server=utf8_general_ci
 
   api:
@@ -27,12 +27,12 @@ services:
     depends_on:
       - db
     build:
-      context: ./back-end
+      context: ./src
       dockerfile: ./api.Dockerfile
     ports:
       - 5000:5000
     volumes:
-      - ./back-end:/app
+      - .:/app
 
 networks:
   default:
