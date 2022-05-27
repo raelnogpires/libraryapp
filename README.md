@@ -413,6 +413,7 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 | 404        | token not found                    |
 
 Requisição:
+`http://localhost:5000/api/v1/books/3`  
 ```json
  {
    "name": "The idiot",
