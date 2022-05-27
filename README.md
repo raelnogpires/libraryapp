@@ -121,7 +121,7 @@ Resposta:
 ```
 
 ### Buscar todos os livros
-Busca todos os livros cadastrados.
+Busca todos os livros cadastrados.  
 Corpo da resposta contém um array JSON com os livros e suas informações.
 
 <details>
@@ -185,6 +185,69 @@ Resposta:
      "img_url": "https://images-na.ssl-images-amazon.com/images/I/517DdyXpc5L._SX348_BO1,204,203,200_.jpg"
    },
  ]
+```
+
+</details>
+
+### Buscar livro
+Buscar um livro específico pelo seu ID.  
+Corpo da resposta contém um objeto JSON com informações do livro.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ POST http://localhost:5000/api/v1/books/{id}
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+
+##### Path
+| **Campo** | **Tipo** | **Descrição**              |
+|:----------|:---------|:---------------------------|
+| id        | int      | ID do livro a ser buscado. |
+
+#### Campos da resposta
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| id            | int      | ID do livro.                                          |
+| name          | string   | Nome do livro                                         |
+| description   | string   | Sinopse do livro.                                     |
+| category_id   | int      | ID da categoria que o livro pertence.                 |
+| category_name | string   | Nome da categoria que o livro pertence.               |
+| author_id     | int      | ID da pessoa autora.                                  |
+| author_name   | string   | Nome da pessoa autora.                                |
+| img_url       | string   | URL da imagem do livro.                               |
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 200        | book returned with success         |
+| 400        | invalid token                      |
+| 404        | token not found                    |
+| 404        | book not found                     |
+
+#### Exemplo
+
+Requisição:  
+![getBookById](./readme_utils/getBookById.png)
+
+Resposta:  
+```json
+ {
+   "id": 2,
+   "name": "Crime e Castigo",
+   "description": "Crime e Castigo é a obra mais célebre de Fyodor Dostoevsky. Neste livro, Raskólnikov, um jovem estudante, pobre e desesperado, perambula pelas ruas de São Petersburgo até cometer um crime que tentará justificar por uma teoria: grandes homens, como César ou Napoleão, foram assassinos absolvidos pela História.",
+   "category_id": 5,
+   "category_name": "Literatura Russa",
+   "author_id": 4,
+   "author_name": "Fyodor Dostoevsky",
+   "img_url": "https://images-na.ssl-images-amazon.com/images/I/517DdyXpc5L._SX348_BO1,204,203,200_.jpg"
+ }
 ```
 
 </details>
