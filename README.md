@@ -125,7 +125,7 @@ Busca todos os livros cadastrados.
 Corpo da resposta contém um array JSON com os livros e suas informações.
 
 <details>
-  <summary>Detalhes</summary>
+  <summary><strong>Detalhes</strong></summary>
 
 #### URL
 ```sh
@@ -158,7 +158,7 @@ Nenhum.
 | 404        | token not found                    |
 
 #### Exemplo
-Requisição:
+Requisição:  
 ![getAllBooks](./readme_utils/getAllBooks.png)
 
 Resposta:
