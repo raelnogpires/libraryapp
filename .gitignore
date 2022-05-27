@@ -1,4 +1,5 @@
 /back-end/.env
+/back-end/bin/
 .env
 
 front-end/node_modules

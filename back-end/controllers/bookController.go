@@ -12,7 +12,7 @@ func GetAllBooks(c *gin.Context) {
 	books, err := services.GetAllBooks()
 	if err != nil {
 		c.JSON(500, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 	}
 
@@ -24,7 +24,7 @@ func GetBookById(c *gin.Context) {
 	intid, err := strconv.Atoi(id)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "id must be an integer",
+			"message": "id must be an integer",
 		})
 		return
 	}
@@ -32,7 +32,7 @@ func GetBookById(c *gin.Context) {
 	book, err := services.GetBookById(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -46,7 +46,7 @@ func CreateBook(c *gin.Context) {
 	err := c.ShouldBindJSON(&book)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "invalid json data",
+			"message": "invalid request body",
 		})
 		return
 	}
@@ -54,7 +54,7 @@ func CreateBook(c *gin.Context) {
 	err = services.CreateBook(&book)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -67,7 +67,7 @@ func EditBook(c *gin.Context) {
 	n, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "id must be an integer number",
+			"message": "id must be an integer number",
 		})
 		return
 	}
@@ -78,7 +78,7 @@ func EditBook(c *gin.Context) {
 	err = c.ShouldBindJSON(&book)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "invalid json data",
+			"message": "invalid request body",
 		})
 		return
 	}
@@ -86,7 +86,7 @@ func EditBook(c *gin.Context) {
 	err = services.EditBook(&book)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": err.Error(),
+			"message": err.Error(),
 		})
 		return
 	}
@@ -99,7 +99,7 @@ func DeleteBook(c *gin.Context) {
 	intid, err := strconv.Atoi(id)
 	if err != nil {
 		c.JSON(400, gin.H{
-			"error": "id must be an integer",
+			"message": "id must be an integer",
 		})
 		return
 	}
@@ -107,7 +107,7 @@ func DeleteBook(c *gin.Context) {
 	err = services.DeleteBook(intid)
 	if err != nil {
 		c.JSON(404, gin.H{
-			"error": "book doesn't exist",
+			"message": "book doesn't exist",
 		})
 		return
 	}
