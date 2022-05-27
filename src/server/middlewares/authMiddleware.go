@@ -12,7 +12,7 @@ func Auth() gin.HandlerFunc {
 		if header == "Bearer" {
 			// when authorization header is empty
 			// const header only returns the string "Bearer"
-			ctx.AbortWithStatusJSON(401, "token not found")
+			ctx.AbortWithStatusJSON(404, "token not found")
 			return
 		}
 

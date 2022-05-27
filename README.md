@@ -80,7 +80,13 @@ Resposta:
 ```
 
 ### Login
-Realiza o login com email e senha de uma pessoa usuária já cadastrada.
+Realiza o login com email e senha de uma pessoa usuária já cadastrada.  
+Corpo da resposta contém um objeto JSON com o token de autenticação gerado e o `id` do usuário.
+
+#### URL
+```sh
+ POST http://localhost:5000/api/v1/login
+```
 
 #### Parâmetros
 
@@ -113,3 +119,72 @@ Resposta:
    "user_id": 1
  }
 ```
+
+### Buscar todos os livros
+Busca todos os livros cadastrados.
+Corpo da resposta contém um array JSON com os livros e suas informações.
+
+<details>
+  <summary>Detalhes</summary>
+
+#### URL
+```sh
+ POST http://localhost:5000/api/v1/books
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+Nenhum.
+
+#### Campos da resposta
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| id            | int      | ID do livro.                                          |
+| name          | string   | Nome do livro                                         |
+| description   | string   | Sinopse do livro.                                     |
+| category_id   | int      | ID da categoria que o livro pertence.                 |
+| category_name | string   | Nome da categoria que o livro pertence.               |
+| author_id     | int      | ID da pessoa autora.                                  |
+| author_name   | string   | Nome da pessoa autora.                                |
+| img_url       | string   | URL da imagem do livro.                               |
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 200        | books returned with success        |
+| 400        | invalid token                      |
+| 404        | token not found                    |
+
+#### Exemplo
+Requisição:
+![getAllBooks](./readme_utils/getAllBooks.png)
+
+Resposta:
+```json
+ [
+   {
+	 "id": 1,
+	 "name": "Sentimento do mundo",
+	 "description": "O Drummond de Sentimento do mundo oscila entre diversos polos: cidade x interior, atualidade x memórias, eu x mundo. Perfeita depuração dos livros anteriores, este é um verdadeiro marco.",
+	 "category_id": 6,
+	 "category_name": "Poesia",
+	 "author_id": 2,
+	 "author_name": "Carlos Drummond de Andrade",
+	 "img_url": "https://images-na.ssl-images-amazon.com/images/I/41Q6T14Y0EL._SX324_BO1,204,203,200_.jpg"
+   },
+   {
+     "id": 6,
+     "name": "Crime e Castigo",
+     "description": "Crime e Castigo é a obra mais célebre de Fyodor Dostoevsky. Neste livro, Raskólnikov, um jovem estudante, pobre e desesperado, perambula pelas ruas de São Petersburgo até cometer um crime que tentará justificar por uma teoria: grandes homens, como César ou Napoleão, foram assassinos absolvidos pela História.",
+     "category_id": 5,
+     "category_name": "Literatura Russa",
+     "author_id": 4,
+     "author_name": "Fyodor Dostoevsky",
+     "img_url": "https://images-na.ssl-images-amazon.com/images/I/517DdyXpc5L._SX348_BO1,204,203,200_.jpg"
+   },
+ ]
+```
+
+</details>

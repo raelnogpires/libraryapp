@@ -33,13 +33,13 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			authors.DELETE("/:id", controllers.DeleteAuthor)
 		}
 
-		books := main.Group("books")
+		books := main.Group("books", middlewares.Auth())
 		{
 			books.GET("/", controllers.GetAllBooks)
 			books.GET("/:id", controllers.GetBookById)
-			books.POST("/", middlewares.Auth(), controllers.CreateBook)
-			books.PUT("/:id", middlewares.Auth(), controllers.EditBook)
-			books.DELETE("/:id", middlewares.Auth(), controllers.DeleteBook)
+			books.POST("/", controllers.CreateBook)
+			books.PUT("/:id", controllers.EditBook)
+			books.DELETE("/:id", controllers.DeleteBook)
 		}
 
 		categories := main.Group("categories", middlewares.Auth())
