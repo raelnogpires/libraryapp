@@ -41,6 +41,9 @@ Para encerrar a aplicação utilize `Ctrl + C` .
 ### Cadastro de um novo usuário
 Cadastra uma nova pessoa usuária.  
 
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
 #### URL
 ```sh
  POST http://localhost:5000/api/v1/register
@@ -78,6 +81,8 @@ Resposta:
    "message": "user registered with success",
  }
 ```
+
+</details>
 
 ### Login
 Realiza o login com email e senha de uma pessoa usuária já cadastrada.  
