@@ -5,7 +5,7 @@ CREATE TABLE LibraryDB.users(
 	id INT PRIMARY KEY AUTO_INCREMENT,
   	username VARCHAR(50) NOT NULL,
   	email VARCHAR(70) NOT NULL,
-  	`password` VARCHAR(120) NOT NULL
+  	`password` VARCHAR(200) NOT NULL
 ) ENGINE = InnoDB;
 
 CREATE TABLE LibraryDB.authors(
