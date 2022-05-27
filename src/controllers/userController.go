@@ -30,7 +30,7 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 
-	c.Status(201)
+	c.JSON(201, gin.H{"message": "user registered with sucess"})
 }
 
 func Login(c *gin.Context) {
