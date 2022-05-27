@@ -78,3 +78,38 @@ Resposta:
    "message": "user registered with success",
  }
 ```
+
+### Login
+Realiza o login com email e senha de uma pessoa usuária já cadastrada.
+
+#### Parâmetros
+
+##### Body
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| email         | string   | Email da pessoa usuária. **Obrigatório**.             |
+| password      | string   | Senha da pessoa usuária. **Obrigatório**.             |
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 200        | token generated with success       |
+| 400        | invalid credentials                |
+| 404        | user not found                     |
+
+#### Exemplo
+Requisição:
+```json
+ {
+   "email": "ilovebooks@lispector.com",
+   "password": "1d5as15d"
+ }
+```
+
+Resposta:
+```json
+ {
+   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImV4cCI6MTY1MzY5MDQ2MCwiaWF0IjoxNjUzNjY4ODYwLCJpc3MiOiJsaWJyYXJ5In0.kp7TQZmRHz-5ENJMa9KZ0mRVg35Xd8sm08WKmX_MFXg",
+   "user_id": 1
+ }
+```
