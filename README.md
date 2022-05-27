@@ -412,7 +412,7 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 | 400        | invalid token                      |
 | 404        | token not found                    |
 
-Requisição:
+Requisição:  
 `http://localhost:5000/api/v1/books/3`  
 ```json
  {
@@ -435,5 +435,39 @@ Reposta:
    "img_url": "https://images-na.ssl-images-amazon.com/images/I/51EuSosoqJL._SX346_BO1,204,203,200_.jpg"
  }
 ```
+
+</details>
+
+### Deletar um livro
+Deleta um livro especificado pelo seu ID.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ DELETE http://localhost:5000/api/v1/books/{id}
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+
+#### Path
+| **Campo** | **Tipo** | **Descrição**               |
+|:----------|:---------|:----------------------------|
+| id        | int      | ID do livro a ser deletado. |
+
+#### Campos da resposta
+Nenhum.
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 204        | book deleted with success          |
+| 400        | invalid token                      |
+| 404        | token not found                    |
+| 404        | book not found                     |
 
 </details>
