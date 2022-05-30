@@ -231,7 +231,7 @@ Resposta:
 </details>
 
 ### Buscar livro
-Buscar um livro especificado pelo seu ID.  
+Busca um livro especificado pelo seu ID.  
 Corpo da resposta contém um objeto JSON as com informações do livro.
 
 <details>
@@ -454,7 +454,7 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 
 #### Parâmetros
 
-#### Path
+##### Path
 | **Campo** | **Tipo** | **Descrição**               |
 |:----------|:---------|:----------------------------|
 | id        | int      | ID do livro a ser deletado. |
@@ -472,8 +472,8 @@ Nenhum.
 
 </details>
 
-### Procurar todos os autores
-Busca todos os autores cadastrados.
+### Buscar todos os autores
+Busca todos os autores cadastrados.  
 Corpo da resposta contém um array JSON com os autores.
 
 <details>
@@ -519,6 +519,56 @@ Resposta:
      "name": "Carlos Drummond de Andrade",
    }
  ]
+```
+
+</details>
+
+### Buscar autor
+Busca um autor especificado pelo seu ID.
+Corpo da resposta contém um objeto JSON com as informações do autor.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ GET http://localhost:5000/api/v1/authors/{id}
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+
+##### Path
+| **Campo** | **Tipo** | **Descrição**               |
+|:----------|:---------|:----------------------------|
+| id        | int      | ID do autor a ser buscado.  |
+
+#### Campos da resposta
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| id            | int      | ID do autor.                                          |
+| name          | string   | Nome do autor.                                        |
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 200        | author returned with success       |
+| 400        | invalid token                      |
+| 404        | token not found                    |
+| 404        | author not found                   |
+
+#### Exemplo
+Requisição:  
+![getAuthorById](./readme_utils/getAuthorById.png)
+
+Resposta:
+```json
+ {
+   "id": 2,
+   "name": "Carlos Drummond de Andrade"
+ }
 ```
 
 </details>
