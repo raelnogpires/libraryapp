@@ -1,6 +1,6 @@
 # LibraryAPI
 
-LibraryAPI é uma REST API que simula o gerenciamento de uma biblioteca. É possível criar, editar, visualizar e deletar livros, autores e categorias. Porém, para criar, editar ou deletar, é necessário estar cadastrado na aplicação. Caso o usuário não esteja cadastrado, será possível apenas visualizar os livros.
+LibraryAPI é uma REST API que simula o gerenciamento de uma biblioteca. É possível criar, editar, visualizar e deletar livros, autores e categorias. Porém, é necessário estar cadastrado na aplicação.
 
 ## Tecnologias utilizadas
 Essa API foi desenvolvida utilizando a linguagem [Go](https://go.dev/), em conjunto com o Object-Relational Mapper (ORM) [GORM](https://gorm.io/) e o banco de dados relacional [MySQL](https://www.mysql.com/).  
