@@ -723,7 +723,7 @@ Nenhum.
 </details>
 
 ### Buscar todas as categorias
-Busca todas as categorias cadastradas.
+Busca todas as categorias cadastradas.  
 Corpo da resposta contém um array JSON com as categorias.
 
 <details>
@@ -775,7 +775,7 @@ Resposta:
 
 ### Buscar categoria
 Busca um autor especificado pelo seu ID.  
-Corpo da resposta contém um objeto JSON com as informações do autor.
+Corpo da resposta contém um objeto JSON com as informações da categoria.
 
 <details>
   <summary><strong>Detalhes</strong></summary>
@@ -872,6 +872,67 @@ Resposta:
  {
    "id": 3,
    "name": "Literatura Russa"
+ }
+```
+
+</details>
+
+### Editar uma categoria
+Edita uma categoria especificada pelo seu ID.  
+Corpo da resposta contém um objeto JSON com as informações da categoria editada.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ PUT http://localhost:5000/api/v1/categories/{id}
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+
+##### Path
+| **Campo** | **Tipo** | **Descrição**                  |
+|:----------|:---------|:-------------------------------|
+| id        | int      | ID da categoria a ser editada. |
+
+##### Body
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| name          | string   | Nome do categoria. **Obrigatório**                    |
+
+#### Campos da resposta
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| id            | int      | ID da categoria.                                      |
+| name          | string   | Nome da categoria.                                    |
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 200        | category edited with success       |
+| 400        | invalid request body               |
+| 401        | invalid token                      |
+| 404        | token not found                    |
+| 404        | category not found                 |
+
+#### Exemplo
+Requisição:  
+`http://localhost:5000/api/v1/categories/2`  
+```json
+ {
+   "name": "Romance"
+ }
+```
+
+Resposta:
+```json
+ {
+   "id": 2,
+   "name": "Romance"
  }
 ```
 
