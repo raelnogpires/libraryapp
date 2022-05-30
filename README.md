@@ -687,3 +687,37 @@ Resposta:
 ```
 
 </details>
+
+### Deletar um autor
+Deleta um autor especificado pelo seu ID.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ DELETE http://localhost:5000/api/v1/authors/{id}
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+
+##### Path
+| **Campo** | **Tipo** | **Descrição**               |
+|:----------|:---------|:----------------------------|
+| id        | int      | ID do autor a ser deletado. |
+
+#### Campos da resposta
+Nenhum.
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 204        | author deleted with success        |
+| 401        | invalid token                      |
+| 404        | token not found                    |
+| 404        | author not found                   |
+
+</details>
