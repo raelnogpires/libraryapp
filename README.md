@@ -804,10 +804,10 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 #### Códigos de status da resposta
 | **Código** | **Descrição**                      |
 |:-----------|:-----------------------------------|
-| 200        | categorie returned with success    |
+| 200        | category returned with success     |
 | 401        | invalid token                      |
 | 404        | token not found                    |
-| 404        | categorie not found                |
+| 404        | category not found                 |
 
 #### Exemplo
 Requisição:  
@@ -829,5 +829,50 @@ Corpo da resposta contém um objeto JSON com as informações da categoria criad
 
 <details>
   <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ POST http://localhost:5000/api/v1/categories
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+
+##### Body
+| **Campo** | **Tipo** | **Descrição**                       |
+|:----------|:---------|:------------------------------------|
+| name      | string   | Nome da categoria. **Obrigatório**  |
+
+#### Campos da resposta
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| id            | int      | ID da categoria.                                      |
+| name          | string   | Nome da categoria.                                    |
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 201        | category created with success      |
+| 400        | invalid request body               |
+| 401        | invalid token                      |
+| 404        | token not found                    |
+
+#### Exemplo
+Requisição:
+```json
+ {
+   "name": "Literatura Russa"
+ }
+```
+
+Resposta:
+```json
+ {
+   "id": 3,
+   "name": "Literatura Russa"
+ }
+```
 
 </details>
