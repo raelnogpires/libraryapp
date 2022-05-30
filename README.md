@@ -772,3 +772,62 @@ Resposta:
 ```
 
 </details>
+
+### Buscar categoria
+Busca um autor especificado pelo seu ID.  
+Corpo da resposta contém um objeto JSON com as informações do autor.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ GET http://localhost:5000/api/v1/categories/{id}
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+
+##### Path
+| **Campo** | **Tipo** | **Descrição**                   |
+|:----------|:---------|:--------------------------------|
+| id        | int      | ID da categoria a ser buscada.  |
+
+#### Campos da resposta
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| id            | int      | ID da categoria.                                      |
+| name          | string   | Nome da categoria.                                    |
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 200        | categorie returned with success    |
+| 401        | invalid token                      |
+| 404        | token not found                    |
+| 404        | categorie not found                |
+
+#### Exemplo
+Requisição:  
+![getCategoryById](./readme_utils/getCategoryById.png)
+
+Resposta:
+```json
+ {
+   "id": 2,
+   "name": "Ficção Literária"
+ }
+```
+
+</details>
+
+### Criar uma categoria
+Cria uma nova categoria.  
+Corpo da resposta contém um objeto JSON com as informações da categoria criada.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+</details>
