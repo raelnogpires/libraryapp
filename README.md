@@ -524,7 +524,7 @@ Resposta:
 </details>
 
 ### Buscar autor
-Busca um autor especificado pelo seu ID.
+Busca um autor especificado pelo seu ID.  
 Corpo da resposta contém um objeto JSON com as informações do autor.
 
 <details>
@@ -568,6 +568,60 @@ Resposta:
  {
    "id": 2,
    "name": "Carlos Drummond de Andrade"
+ }
+```
+
+</details>
+
+### Criar um autor
+Cria um novo autor.  
+Corpo da resposta contém um objeto JSON com as informações do autor criado.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ POST http://localhost:5000/api/v1/authors
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+
+##### Body
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| name          | string   | Nome do autor. **Obrigatório**                        |
+
+#### Campos da resposta
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| id            | int      | ID do autor.                                          |
+| name          | string   | Nome do autor.                                        |
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 201        | author created with success        |
+| 400        | invalid request body               |
+| 400        | invalid token                      |
+| 404        | token not found                    |
+
+#### Exemplo
+Requisição:
+```json
+ {
+   "name": "J. R. R. Tolkien"
+ }
+```
+
+Resposta:
+```json
+ {
+   "id": 3,
+   "name": "J. R. R. Tolkien"
  }
 ```
 
