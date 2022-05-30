@@ -29,9 +29,6 @@ CREATE TABLE LibraryDB.books(
   	FOREIGN KEY (author_id) REFERENCES LibraryDB.authors (id)
 ) ENGINE = InnoDB;
 
-INSERT INTO LibraryDB.users (username, email, `password`) VALUES
-	('admin', 'admin@librarydb.com', 'supersecure72649');
-
 INSERT INTO LibraryDB.authors (`name`) VALUES
 	('Clarice Lispector'),
     ('Carlos Drummond de Andrade'),
