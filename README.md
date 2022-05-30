@@ -500,7 +500,7 @@ Nenhum.
 | **Código** | **Descrição**                      |
 |:-----------|:-----------------------------------|
 | 200        | authors returned with success      |
-| 401s        | invalid token                      |
+| 401        | invalid token                      |
 | 404        | token not found                    |
 
 #### Exemplo
@@ -719,5 +719,56 @@ Nenhum.
 | 401        | invalid token                      |
 | 404        | token not found                    |
 | 404        | author not found                   |
+
+</details>
+
+### Buscar todas as categorias
+Busca todas as categorias cadastradas.
+Corpo da resposta contém um array JSON com as categorias.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ GET http://localhost:5000/api/v1/categories
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+Nenhum.
+
+#### Campos da resposta
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| id            | int      | ID da categoria.                                      |
+| name          | string   | Nome da categoria.                                    |
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 200        | categories returned with success   |
+| 401        | invalid token                      |
+| 404        | token not found                    |
+
+#### Exemplo
+Requisição:
+![getAllCategories](./readme_utils/getAllCategories.png)
+
+Resposta:
+```json
+ [
+   {
+     "id": 1,
+     "name": "Poesia"
+   },
+   {
+     "id": 2,
+     "name": "Ficção Literária"
+   }
+ ]
+```
 
 </details>
