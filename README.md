@@ -183,7 +183,7 @@ Nenhum.
 | **Parâmetro** | **Tipo** | **Descrição**                                         |
 |:--------------|:---------|:------------------------------------------------------|
 | id            | int      | ID do livro.                                          |
-| name          | string   | Nome do livro                                         |
+| name          | string   | Nome do livro.                                        |
 | description   | string   | Sinopse do livro.                                     |
 | category_id   | int      | ID da categoria que o livro pertence.                 |
 | category_name | string   | Nome da categoria que o livro pertence.               |
@@ -231,7 +231,7 @@ Resposta:
 </details>
 
 ### Buscar livro
-Buscar um livro específico pelo seu ID.  
+Buscar um livro especificado pelo seu ID.  
 Corpo da resposta contém um objeto JSON as com informações do livro.
 
 <details>
@@ -256,7 +256,7 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 | **Parâmetro** | **Tipo** | **Descrição**                                         |
 |:--------------|:---------|:------------------------------------------------------|
 | id            | int      | ID do livro.                                          |
-| name          | string   | Nome do livro                                         |
+| name          | string   | Nome do livro.                                        |
 | description   | string   | Sinopse do livro.                                     |
 | category_id   | int      | ID da categoria que o livro pertence.                 |
 | category_name | string   | Nome da categoria que o livro pertence.               |
@@ -323,7 +323,7 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 | **Parâmetro** | **Tipo** | **Descrição**                                         |
 |:--------------|:---------|:------------------------------------------------------|
 | id            | int      | ID do livro.                                          |
-| name          | string   | Nome do livro                                         |
+| name          | string   | Nome do livro.                                        |
 | description   | string   | Sinopse do livro.                                     |
 | category_id   | int      | ID da categoria que o livro pertence.                 |
 | author_id     | int      | ID da pessoa autora.                                  |
@@ -398,7 +398,7 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 | **Parâmetro** | **Tipo** | **Descrição**                                         |
 |:--------------|:---------|:------------------------------------------------------|
 | id            | int      | ID do livro.                                          |
-| name          | string   | Nome do livro                                         |
+| name          | string   | Nome do livro.                                        |
 | description   | string   | Sinopse do livro.                                     |
 | category_id   | int      | ID da categoria que o livro pertence.                 |
 | author_id     | int      | ID da pessoa autora.                                  |
@@ -469,5 +469,56 @@ Nenhum.
 | 400        | invalid token                      |
 | 404        | token not found                    |
 | 404        | book not found                     |
+
+</details>
+
+### Procurar todos os autores
+Busca todos os autores cadastrados.
+Corpo da resposta contém um array JSON com os autores.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ GET http://localhost:5000/api/v1/authors
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+Nenhum.
+
+#### Campos da resposta
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| id            | int      | ID do autor.                                          |
+| name          | string   | Nome do autor.                                        |
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 200        | authors returned with success      |
+| 400        | invalid token                      |
+| 404        | token not found                    |
+
+#### Exemplo
+Requisição:  
+![getAllAuthors](./readme_utils/getAllAuthors.png)
+
+Resposta:  
+```json
+ [
+   {
+     "id": 1,
+     "name": "Clarice Lispector",
+   },
+   {
+     "id": 2,
+     "name": "Carlos Drummond de Andrade",
+   }
+ ]
+```
 
 </details>
