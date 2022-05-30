@@ -35,7 +35,8 @@ INSERT INTO LibraryDB.authors (`name`) VALUES
     ('Hanya Yanagihara'),
     ('Fyodor Dostoevsky'),
     ('Simone de Beauvoir'),
-    ('Jean-Paul Sartre');
+    ('Jean-Paul Sartre'),
+    ('Lara Marques de Menezes');
 
 INSERT INTO LibraryDB.categories (`name`) VALUES
 	('Ciências Sociais'),
