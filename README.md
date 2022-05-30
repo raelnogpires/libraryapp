@@ -151,7 +151,7 @@ Nenhum.
 | **Código** | **Descrição**                      |
 |:-----------|:-----------------------------------|
 | 204        | user deleted with success          |
-| 400        | invalid token                      |
+| 401        | invalid token                      |
 | 404        | token not found                    |
 | 404        | user not found                     |
 
@@ -195,7 +195,7 @@ Nenhum.
 | **Código** | **Descrição**                      |
 |:-----------|:-----------------------------------|
 | 200        | books returned with success        |
-| 400        | invalid token                      |
+| 401        | invalid token                      |
 | 404        | token not found                    |
 
 #### Exemplo
@@ -268,7 +268,7 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 | **Código** | **Descrição**                      |
 |:-----------|:-----------------------------------|
 | 200        | book returned with success         |
-| 400        | invalid token                      |
+| 401        | invalid token                      |
 | 404        | token not found                    |
 | 404        | book not found                     |
 
@@ -334,7 +334,7 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 |:-----------|:-----------------------------------|
 | 201        | book created with success          |
 | 400        | invalid request body               |
-| 400        | invalid token                      |
+| 401        | invalid token                      |
 | 404        | token not found                    |
 
 #### Exemplo
@@ -380,7 +380,7 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 
 #### Parâmetros
 
-#### Path
+##### Path
 | **Campo** | **Tipo** | **Descrição**              |
 |:----------|:---------|:---------------------------|
 | id        | int      | ID do livro a ser editado. |
@@ -407,9 +407,9 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 #### Códigos de status da resposta
 | **Código** | **Descrição**                      |
 |:-----------|:-----------------------------------|
-| 201        | book edited with success           |
+| 200        | book edited with success           |
 | 400        | invalid request body               |
-| 400        | invalid token                      |
+| 401        | invalid token                      |
 | 404        | token not found                    |
 
 Requisição:  
@@ -466,7 +466,7 @@ Nenhum.
 | **Código** | **Descrição**                      |
 |:-----------|:-----------------------------------|
 | 204        | book deleted with success          |
-| 400        | invalid token                      |
+| 401        | invalid token                      |
 | 404        | token not found                    |
 | 404        | book not found                     |
 
@@ -500,7 +500,7 @@ Nenhum.
 | **Código** | **Descrição**                      |
 |:-----------|:-----------------------------------|
 | 200        | authors returned with success      |
-| 400        | invalid token                      |
+| 401s        | invalid token                      |
 | 404        | token not found                    |
 
 #### Exemplo
@@ -555,7 +555,7 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 | **Código** | **Descrição**                      |
 |:-----------|:-----------------------------------|
 | 200        | author returned with success       |
-| 400        | invalid token                      |
+| 401        | invalid token                      |
 | 404        | token not found                    |
 | 404        | author not found                   |
 
@@ -606,7 +606,7 @@ Requer token de autenticação no campo `Token` do `Bearer Token` .
 |:-----------|:-----------------------------------|
 | 201        | author created with success        |
 | 400        | invalid request body               |
-| 400        | invalid token                      |
+| 401        | invalid token                      |
 | 404        | token not found                    |
 
 #### Exemplo
@@ -622,6 +622,67 @@ Resposta:
  {
    "id": 3,
    "name": "J. R. R. Tolkien"
+ }
+```
+
+</details>
+
+### Editar um autor
+Edita um autor especificado pelo seu ID.  
+Corpo da resposta contém um objeto JSON com as informações do autor editado.
+
+<details>
+  <summary><strong>Detalhes</strong></summary>
+
+#### URL
+```sh
+ PUT http://localhost:5000/api/v1/authors/{id}
+```
+
+#### Autorização
+Requer token de autenticação no campo `Token` do `Bearer Token` .
+
+#### Parâmetros
+
+##### Path
+| **Campo** | **Tipo** | **Descrição**              |
+|:----------|:---------|:---------------------------|
+| id        | int      | ID do autor a ser editado. |
+
+##### Body
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| name          | string   | Nome do autor. **Obrigatório**                        |
+
+#### Campos da resposta
+| **Parâmetro** | **Tipo** | **Descrição**                                         |
+|:--------------|:---------|:------------------------------------------------------|
+| id            | int      | ID do autor.                                          |
+| name          | string   | Nome do autor.                                        |
+
+#### Códigos de status da resposta
+| **Código** | **Descrição**                      |
+|:-----------|:-----------------------------------|
+| 200        | author edited with success         |
+| 400        | invalid request body               |
+| 401        | invalid token                      |
+| 404        | token not found                    |
+| 404        | author not found                   |
+
+#### Exemplo
+Requisição:  
+`http://localhost:5000/api/v1/authors/3`  
+```json
+ {
+   "name": "George R. R. Martin"
+ }
+```
+
+Resposta:
+```json
+ {
+   "id": 3,
+   "name": "George R. R. Martin"
  }
 ```
 
